@@ -1,0 +1,10 @@
+.header{
+    background-color: #e39d34;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.header img{
+    width: 100%;
+    max-height: 50%;
+}

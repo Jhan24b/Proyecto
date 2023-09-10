@@ -1,0 +1,28 @@
+.equipo{
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.equipo h3{
+    font-family: 'Montserrat','sans-serif';
+    color: #212121;
+    font-size: 32px;
+    font-weight: 400;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.colaboradores{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.colores{
+    position: absolute;
+    top: 20px;
+    right: 50px;
+}
