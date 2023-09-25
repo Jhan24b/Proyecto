@@ -13,7 +13,7 @@ const Footer = ()=>{
                 <img src="/img/instagram.png" alt="Instagram" />
             </a>
         </div>
-        <img src="/img/logo.png" alt="org" />
+        <strong>Friendly Farm</strong>
         <strong>Desarrollado por Anthony Torres</strong>
     </footer>
 }

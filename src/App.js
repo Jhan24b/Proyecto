@@ -6,58 +6,43 @@ import Header from './components/Header/header';
 import MyOrg from './components/MyOrg/MyOrg';
 import Equipo from './components/Equipo/Equipo';
 import Footer from './components/Footer/Footer';
-import api from "./scripts/script";
+import {NextUIProvider} from "@nextui-org/react";
 
 function App() {
   const [mostrarFormulario, actualizarMostrar] = useState(false);
   const [colaboradores, actualizarColaboradores] = useState([]);
   const [equipos, actualizarEquipos] = useState([{
-    titulo: "Programming",
+    titulo: "Frutas",
     colorPrimario: "#57c278",
     colorSecundario: "#D9F7E9",
     id: uuidv4()
   }, {
-    titulo: "Front End",
+    titulo: "Verduras",
     colorPrimario: "#82cffa",
     colorSecundario: "#e8f8ff",
     id: uuidv4()
   }, {
-    titulo: "Data Science",
+    titulo: "Cereales",
     colorPrimario: "#a6d157",
     colorSecundario: "#f0f8e2",
     id: uuidv4()
   }, {
-    titulo: "Dev Ops",
+    titulo: "Legumbres",
     colorPrimario: "#e06b69",
     colorSecundario: "#fde7e8",
     id: uuidv4()
   }, {
-    titulo: "UIX Design",
+    titulo: "Hierbas Medicinales",
     colorPrimario: "#db6ebf",
     colorSecundario: "#fae9f5",
     id: uuidv4()
   }, {
-    titulo: "Mobile",
+    titulo: "Cultivos Especiales",
     colorPrimario: "#ffba05",
     colorSecundario: "#fff5d9",
     id: uuidv4()
-  }, {
-    titulo: "Innovation and Managment",
-    colorPrimario: "#ff8a29",
-    colorSecundario: "#ffeedf",
-    id: uuidv4()
   }]);
   const [locationData, setLocationData] = useState(null);
-
-  useEffect(() => {
-    api.position()
-      .then(result => {
-        setLocationData(result);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
 
   //Muestra el formulario para anadir un nuevo colaborador
   const cambiarMostrar = () => {
@@ -106,7 +91,7 @@ function App() {
   }
 
   return (
-    <div>
+    <NextUIProvider>
       <Header />
       <MyOrg cambiarMostrar={cambiarMostrar} />
       {/* {mostrarFormulario === true ? <Formulario/> : <div></div>} */}
@@ -124,14 +109,8 @@ function App() {
           />
         })
       }
-      <div>
-        {/* Renderiza los datos de la ubicación aquí */}
-        {locationData && (
-          <pre>{JSON.stringify(locationData, null, 2)}</pre>
-        )}
-      </div>
       <Footer />
-    </div>
+    </NextUIProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 .footer{
     width: 100%;
     display: flex;
-    padding: 5%;
+    padding: 3%;
     align-items: center;
     box-sizing: border-box;
     background-size: cover;
@@ -10,6 +10,10 @@
     color: #d8bd73;
     font-family: 'Montserrat', 'sans-serif';
     font-size: 20px;
+}
+
+.redes{
+    display: flex;
 }
 
 .redes img{
