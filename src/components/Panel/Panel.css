@@ -1,0 +1,16 @@
+.panel{
+    height: 580px;
+    background-image: url("../../img/campesino.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 64px;
+}
+
+.texto{
+    font-size: 48px;
+    color: white;
+    font-weight: 400 ;
+}

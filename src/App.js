@@ -7,6 +7,7 @@ import MyOrg from './components/MyOrg/MyOrg';
 import Equipo from './components/Equipo/Equipo';
 import Footer from './components/Footer/Footer';
 import {NextUIProvider} from "@nextui-org/react";
+import Panel from "./components/Panel/Panel";
 
 function App() {
   const [mostrarFormulario, actualizarMostrar] = useState(false);
@@ -93,6 +94,7 @@ function App() {
   return (
     <NextUIProvider>
       <Header />
+      <Panel />
       <MyOrg cambiarMostrar={cambiarMostrar} />
       {/* {mostrarFormulario === true ? <Formulario/> : <div></div>} */}
       {mostrarFormulario && <Formulario data={equipos.map((equipo) => equipo.titulo)}
