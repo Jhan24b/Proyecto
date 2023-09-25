@@ -1,0 +1,11 @@
+.top{
+    display: flex;
+    flex-direction: column;
+    padding: 64px 64px;
+}
+
+.destacados{
+    display: flex;
+    justify-content: space-between;
+    padding: 32px 0px;
+}
