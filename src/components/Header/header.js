@@ -5,20 +5,20 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   Button,
 } from "@nextui-org/react";
 import logo from "../../img/logo.png";
 
-function Header() {
+function Header(props) {
   return (
     <header className="header">
       <Navbar>
         <NavbarBrand>
           <img src={logo} alt="logo" />
-          <p className="font-bold text-inherit">Friendly Farm</p>
+          {/* <p className="font-bold text-inherit">Friendly Farm</p> */}
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          {/* Buscador */}
           <NavbarItem>
             <form className="form">
               <button>
@@ -65,14 +65,31 @@ function Header() {
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
+          {/* Botones */}
+          {(!props.form) && (<NavbarItem className="hidden lg:flex">
+            <Button href="#" className="btn-login" onClick={()=>{
+              props.mostrarForm();
+              props.ponerTipoForm('Login');
+            }}>Login</Button>
+          </NavbarItem>)}
+          {(!props.form) && (<NavbarItem>
+            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={() => {
+              props.mostrarForm();
+              props.ponerTipoForm('SignUp');
+            }}>
               Sign Up
             </Button>
-          </NavbarItem>
+          </NavbarItem>)}
+          {(props.form) && (<NavbarItem>
+            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={props.mostrarForm}>
+              Regresar
+            </Button>
+          </NavbarItem>)}
+          {(props.authenticatedUser) && (<NavbarItem>
+            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={props.mostrarSign}>
+              Perfil
+            </Button>
+          </NavbarItem>)}
         </NavbarContent>
       </Navbar>
     </header>

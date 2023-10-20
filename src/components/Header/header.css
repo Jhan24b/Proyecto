@@ -15,7 +15,7 @@
 .form button {
     border: none;
     background: none;
-    color: #8b8ba7;
+    color: #a79d8b;
   }
   /* styling of whole input container */
   .form {
@@ -91,3 +91,13 @@
     width: 17px;
     margin-top: 3px;
   }
+
+  .btn-login{
+    color: #835c15;
+  }
+
+.btn-sign-up{
+  background-color: transparent;
+  color: #835c15;
+  border-color: #a27218;
+}

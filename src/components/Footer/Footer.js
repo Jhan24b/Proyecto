@@ -2,7 +2,7 @@ import "./Footer.css";
 import fb from "../../img/facebook.png";
 import tw from "../../img/twitter.png";
 import insta from "../../img/instagram.png";
-
+import logo from "../../img/logo.png";
 const Footer = ()=>{
     return <footer className="footer" style={{backgroundImage: "url(/img/portada2.jpeg)"}}>
         <div className="redes">
@@ -16,7 +16,7 @@ const Footer = ()=>{
                 <img src={insta} alt="Instagram" />
             </a>
         </div>
-        <strong>Friendly Farm</strong>
+        <img className="logo" src = {logo} alt="logo"/>
         <strong>Desarrollado por Anthony Torres</strong>
     </footer>
 }

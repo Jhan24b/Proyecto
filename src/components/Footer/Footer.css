@@ -16,6 +16,10 @@
     display: flex;
 }
 
+.logo{
+    height: 80px;
+}
+
 .redes img{
     padding: 0px 15px;
 }

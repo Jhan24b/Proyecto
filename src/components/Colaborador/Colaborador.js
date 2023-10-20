@@ -7,7 +7,6 @@ const Colaborador = (props)=>{
     const {eliminarColaborador, like} = props;
     return <section className="colaborador">
         <AiOutlineUserDelete onClick={() => eliminarColaborador(id)} className="eliminar"/>
-        {console.log(props.datos)}
         <div className="encabezado" style={{backgroundColor: props.bc}}>
             <img src={foto} alt={nombre}/>
         </div>

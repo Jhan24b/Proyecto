@@ -79,11 +79,21 @@ function App() {
     },
   ]);
   const [locationData, setLocationData] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState();
+  const [tipoForm, setTipoForm] = useState();
 
   //Muestra el formulario para anadir un nuevo colaborador
   const cambiarMostrar = () => {
     actualizarMostrar(!mostrarFormulario);
   };
+
+  const ponerTipoForm = (tipo) => {
+    setTipoForm(tipo);
+  }
+
+  const establecerUser = (usuario) =>{
+    setAuthenticatedUser(usuario);
+  }
 
   //Registra al nuevo colaborador
   const registrarColaborador = (colaborador) => {
@@ -130,24 +140,30 @@ function App() {
 
   return (
     <NextUIProvider>
-      <Header />
+      <Header mostrarForm={cambiarMostrar} 
+              authenticatedUser={authenticatedUser} 
+              form={mostrarFormulario}
+              ponerTipoForm = {ponerTipoForm}
+      />
       <Panel />
-      <Top
+      {!mostrarFormulario && <Top
         colaboradores={colaboradores}
         eliminarColaborador={eliminarColaborador}
         actualizarColor={actualizarColor}
         like={like}
-      />
-      {false && <MyOrg cambiarMostrar={cambiarMostrar} />}
+      />}
+      {authenticatedUser && <MyOrg cambiarMostrar={cambiarMostrar} />}
       {/* {mostrarFormulario === true ? <Formulario/> : <div></div>} */}
       {mostrarFormulario && (
         <Formulario
           data={equipos.map((equipo) => equipo.titulo)}
           registrarColaborador={registrarColaborador}
           crearEquipo={crearEquipo}
+          establecerUser = {establecerUser}
+          tipoForm = {tipoForm}
         />
       )}
-      {/* {equipos.map((dato) => {
+      {authenticatedUser && equipos.map((dato) => {
         return (
           <Equipo
             datos={dato}
@@ -160,7 +176,7 @@ function App() {
             like={like}
           />
         );
-      })} */}
+      })}
       <Footer />
     </NextUIProvider>
   );
