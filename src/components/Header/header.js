@@ -86,6 +86,7 @@ function Header(props) {
             </Button>
           </NavbarItem>)}
           {(props.authenticatedUser) && (<NavbarItem>
+            {props.authenticatedUser.nombre}
             <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={props.mostrarSign}>
               Perfil
             </Button>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import { useState} from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import Formulario from "./components/Formulario/formulario";
@@ -9,7 +10,7 @@ import Footer from "./components/Footer/Footer";
 import { NextUIProvider } from "@nextui-org/react";
 import Panel from "./components/Panel/Panel";
 import Top from "./components/Top/Top";
-import c1 from "./img/campesino1.jpg";
+// import c1 from "./img/campesino1.jpg";
 import c2 from "./img/campesino2.png";
 import c3 from "./img/campesino3.jpg";
 
@@ -78,7 +79,7 @@ function App() {
       id: uuidv4(),
     },
   ]);
-  const [locationData, setLocationData] = useState(null);
+  // const [locationData, setLocationData] = useState(null);
   const [authenticatedUser, setAuthenticatedUser] = useState();
   const [tipoForm, setTipoForm] = useState();
 
