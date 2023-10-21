@@ -15,6 +15,7 @@ import Top from "./components/Top/Top";
 // import c1 from "./img/campesino1.jpg";
 import c2 from "./img/campesino2.png";
 import c3 from "./img/campesino3.jpg";
+import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 
 
 function App() {
@@ -134,6 +135,21 @@ function App() {
     push(dbRef, colaborador);
   };
 
+  const registrarAnuncio = (colaborador) => {
+    //Spread Operator hace copia de un valor en este caso de colaboradores
+    actualizarColaboradores([...colaboradores, colaborador]);
+    const db = getDatabase(app);
+    const dbRef = ref(db, 'anuncios');
+
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('Datos de la base de datos:', data);
+    });
+
+    // Realizar una operación de escritura
+    push(dbRef, colaborador);
+  };
+
   //Actualizar color de equipo
   const actualizarColor = (color, id) => {
     const equiposActualizados = equipos.map((equipo) => {
@@ -179,6 +195,7 @@ function App() {
               ponerTipoForm = {ponerTipoForm}
       />
       <Panel />
+      {authenticatedUser && <FormAnuncio registrarAnuncio={registrarAnuncio}/>}
       {!mostrarFormulario && <Top
         colaboradores={colaboradores}
         eliminarColaborador={eliminarColaborador}

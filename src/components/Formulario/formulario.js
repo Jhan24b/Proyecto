@@ -26,6 +26,7 @@ function Formulario(props){
             id: uuid(),
             nombre: nombre,
             foto: foto,
+            dni:dni,
             telefono: telefono,
             equipo: equipo,
             ubicacion: ubicacion,
