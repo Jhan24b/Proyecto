@@ -195,7 +195,7 @@ function App() {
               ponerTipoForm = {ponerTipoForm}
       />
       <Panel />
-      {authenticatedUser && <FormAnuncio registrarAnuncio={registrarAnuncio}/>}
+      {/* {authenticatedUser && <FormAnuncio registrarAnuncio={registrarAnuncio}/>} */}
       {!mostrarFormulario && <Top
         colaboradores={colaboradores}
         eliminarColaborador={eliminarColaborador}
