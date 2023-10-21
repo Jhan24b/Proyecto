@@ -122,6 +122,16 @@ function App() {
   const registrarColaborador = (colaborador) => {
     //Spread Operator hace copia de un valor en este caso de colaboradores
     actualizarColaboradores([...colaboradores, colaborador]);
+    const db = getDatabase(app);
+    const dbRef = ref(db, 'usuarios');
+
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('Datos de la base de datos:', data);
+    });
+
+    // Realizar una operación de escritura
+    push(dbRef, colaborador);
   };
 
   //Actualizar color de equipo

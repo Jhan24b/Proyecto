@@ -16,6 +16,7 @@ function Formulario(props){
     const [ubicacion, actualizarUbicacion] = useState("");
     const [email, actualizarEmail] = useState("");
     const [password, actualizarPassword] = useState("");
+    const [dni, actualizarDni] = useState("");
 
     const {registrarColaborador, establecerUser} = props;
 
@@ -28,6 +29,8 @@ function Formulario(props){
             telefono: telefono,
             equipo: equipo,
             ubicacion: ubicacion,
+            email: email,
+            password: password,
             fav: false
         }
         registrarColaborador(datosEnviar);
@@ -51,8 +54,11 @@ function Formulario(props){
             <h2>Registrarse</h2>
             <Campo titulo="Nombre" placeholder="Ingrese nombre" required valor={nombre} actualizarValor={actualizarNombre}/>
             <Campo titulo="Foto" placeholder="Ingrese enlace de foto" required valor={foto} actualizarValor={actualizarFoto}/>
+            <Campo titulo="Dni" placeholder="Ingrese el dni" required valor={dni} actualizarValor={actualizarDni}/>
             <Campo titulo="Telefono" placeholder="Ingrese numero de telefono" required valor={telefono} actualizarValor={actualizarTelefono}/>
             <Campo titulo="Ubicacion" placeholder="Ingrese enlace de la ubicacion" required valor={ubicacion} actualizarValor={actualizarUbicacion}/>
+            <Campo titulo="Email" placeholder="Ingrese el email" required valor={email} actualizarValor={actualizarEmail}/>
+            <Campo titulo="Contraseña" placeholder="Ingrese la contraseña" required valor={password} actualizarValor={actualizarPassword}/>
             <ListaOpciones valor = {equipo} actualizarValor={actualizarEquipo} equipos={props.data}/>
             <Boton title="Registrarse"/>
         </form>)}
