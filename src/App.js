@@ -1,7 +1,9 @@
-// import { useState, useEffect } from "react";
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+
 import "./App.css";
+import app from "./firebase/firebase";
+import { getDatabase, ref, onValue, push } from 'firebase/database';
 import Formulario from "./components/Formulario/formulario";
 import Header from "./components/Header/header";
 import MyOrg from "./components/MyOrg/MyOrg";
@@ -14,7 +16,24 @@ import Top from "./components/Top/Top";
 import c2 from "./img/campesino2.png";
 import c3 from "./img/campesino3.jpg";
 
+
 function App() {
+
+
+  useEffect(() => {
+    // Acceder a la base de datos de Firebase
+    const db = getDatabase(app);
+    const dbRef = ref(db, 'usuarios');
+
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('Datos de la base de datos:', data);
+    });
+
+    // Realizar una operación de escritura
+    // set(dbRef, { dato: 'Hola, mundo' });
+  }, []);
+
   const [mostrarFormulario, actualizarMostrar] = useState(false);
   const [colaboradores, actualizarColaboradores] = useState([{
     id: uuidv4,
@@ -23,7 +42,8 @@ function App() {
     productos: ["papa, tomates, cebollas"],
     telefono: "999 999 999",
     ubicacion: "su hai",
-    visitas: 10
+    visitas: 10,
+    equipo: "Verduras"
   },{
     id: uuidv4,
     nombre: "Manuel Prada",
@@ -31,7 +51,8 @@ function App() {
     productos: ["papa, zanahorias, lechugas"],
     telefono: "999 999 999",
     ubicacion: "su hai",
-    visitas: 10
+    visitas: 10,
+    equipo: "Cereales"
   },{
     id: uuidv4,
     nombre: "Manuel Prada",
@@ -39,7 +60,8 @@ function App() {
     productos: ["papa, tomates, cebollas"],
     telefono: "999 999 999",
     ubicacion: "su hai",
-    visitas: 10
+    visitas: 10,
+    equipo: "Legumbres"
   }]);
   const [equipos, actualizarEquipos] = useState([
     {
@@ -162,6 +184,7 @@ function App() {
           crearEquipo={crearEquipo}
           establecerUser = {establecerUser}
           tipoForm = {tipoForm}
+          mostrarForm = {cambiarMostrar}
         />
       )}
       {authenticatedUser && equipos.map((dato) => {

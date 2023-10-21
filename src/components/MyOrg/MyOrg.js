@@ -1,5 +1,5 @@
 import "./MyOrg.css";
-import btn from "../../img/btn.png"
+// import btn from "../../img/btn.png"
 
 const MyOrg = (props)=>{
     //Estado - hooks
@@ -14,8 +14,8 @@ const MyOrg = (props)=>{
     
 
     return <section className="orgSection">
-        <h3 className="title"> Registro de Agricultores </h3>
-        <img src={btn} alt ="Agregar" onClick= {props.cambiarMostrar}/>
+        <h3 className="title"> Anuncios </h3>
+        {/* <img src={btn} alt ="Agregar" onClick= {props.cambiarMostrar}/> */}
     </section>
 }
 

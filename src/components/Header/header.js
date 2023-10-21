@@ -66,13 +66,13 @@ function Header(props) {
         </NavbarContent>
         <NavbarContent justify="end">
           {/* Botones */}
-          {(!props.form) && (<NavbarItem className="hidden lg:flex">
+          {((!props.form && !props.authenticatedUser)) && (<NavbarItem className="hidden lg:flex">
             <Button href="#" className="btn-login" onClick={()=>{
               props.mostrarForm();
               props.ponerTipoForm('Login');
             }}>Login</Button>
           </NavbarItem>)}
-          {(!props.form) && (<NavbarItem>
+          {((!props.form && !props.authenticatedUser)) && (<NavbarItem>
             <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={() => {
               props.mostrarForm();
               props.ponerTipoForm('SignUp');

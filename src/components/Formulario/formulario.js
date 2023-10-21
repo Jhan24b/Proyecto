@@ -42,8 +42,8 @@ function Formulario(props){
         e.preventDefault();
         establecerUser({nombre: 'Daniel Lopez',
         dni: 10101010,
-        
         });
+        props.mostrarForm();
     }
 
     return <section className="formulario">
