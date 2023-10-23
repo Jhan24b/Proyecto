@@ -1,22 +1,33 @@
 import "./MyOrg.css";
+import React from "react";
+import { Button } from "@nextui-org/react";
+import Boton from "../Boton/boton";
 // import btn from "../../img/btn.png"
 
-const MyOrg = (props)=>{
-    //Estado - hooks
-    //useState()
+const MyOrg = (props) => {
+  //Estado - hooks
+  //useState()
 
-    // const [mostrar, actualizarMostrar] = useState(true);
+  // const [mostrar, actualizarMostrar] = useState(true);
 
-    // const manejarClick = () =>{
-    //     actualizarMostrar(!mostrar);
-    // }
+  // const manejarClick = () =>{
+  //     actualizarMostrar(!mostrar);
+  // }
 
-    
-
-    return <section className="orgSection">
-        <h3 className="title"> Anuncios </h3>
-        {/* <img src={btn} alt ="Agregar" onClick= {props.cambiarMostrar}/> */}
+  return (
+    <section className="orgSection">
+      <h3 className="title"> Anuncios </h3>
+      <div className="filtroTipo">
+        <Button color="primary" variant="bordered">
+          Productos
+        </Button>
+        <Button color="primary" variant="bordered">
+          Agricultores
+        </Button>
+      </div>
+      {/* <img src={btn} alt ="Agregar" onClick= {props.cambiarMostrar}/> */}
     </section>
-}
+  );
+};
 
 export default MyOrg;
