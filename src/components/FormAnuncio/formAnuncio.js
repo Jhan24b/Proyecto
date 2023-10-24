@@ -1,7 +1,8 @@
 import "./formAnuncio.css";
 
 import React, { useState } from "react";
-import { Input, Button } from "@nextui-org/react";
+import { useDropzone } from "react-dropzone";
+import { Input, Button, Textarea } from "@nextui-org/react";
 import { v4 as uuid } from "uuid";
 
 import Campo from "../Campo/Campo";
@@ -20,6 +21,15 @@ function FormAnuncio(props) {
   const [ubicacion, actualizarUbicacion] = useState("");
 
   const { registrarAnuncio, establecerUser } = props;
+
+  const onDrop = (acceptedFiles) => {
+    // Manejar los archivos aceptados aquí, por ejemplo, mostrar una vista previa o enviar al servidor.
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: "image/*",
+  });
 
   const manejarEnvio = (event) => {
     event.preventDefault();
@@ -69,42 +79,61 @@ function FormAnuncio(props) {
   return (
     <div className="formulario">
       <form onSubmit={manejarEnvio}>
-        <h2>Registrarse</h2>
-        <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]">
-          <Input
-            label="Titulo"
-            variant="faded"
-            value={titulo}
-            onValueChange={actualizarTitulo}
-            isInvalid={!isTituloInvalid}
-            color={!isTituloInvalid ? "danger" : ""}
-            errorMessage={!isTituloInvalid && "Ingrese un titulo valido"}
-          />
-          <Input
-            label="Producto"
-            variant="faded"
-            value={producto}
-            onValueChange={actualizarProducto}
-            isInvalid={!isProductoInvalid}
-            color={!isProductoInvalid ? "danger" : ""}
-            errorMessage={!isProductoInvalid && "Ingrese un producto valido"}
-          />
-          <Input
-            label="Precio"
-            variant="faded"
-            value={precio}
-            onValueChange={actualizarPrecio}
-            isInvalid={!isPrecioInvalid}
-            color={!isPrecioInvalid ? "danger" : ""}
-            errorMessage={!isPrecioInvalid && "Ingrese un precio valido"}
-          />
-          <Input
-            label="Foto"
-            variant="faded"
-            value={foto}
-            onValueChange={actualizarFoto}
-            type="image"
-          />
+        <h2>Crear Anuncio</h2>
+        {/* <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]"> */}
+        <div className="w-full flex gap-2 max-w-[75%] min-w-[420px]">
+          <div {...getRootProps()} className="dropzone">
+            <input {...getInputProps()} />
+            <p>Arrastra y suelta la foto aquí o haz clic para seleccionar.</p>
+          </div>
+          <div className="contenidoAnuncio">
+            <Input
+              label="Titulo"
+              variant="faded"
+              value={titulo}
+              onValueChange={actualizarTitulo}
+              isInvalid={isTituloInvalid}
+              color={isTituloInvalid ? "danger" : ""}
+              errorMessage={isTituloInvalid && "Ingrese un titulo valido"}
+            />
+            <div className="contenidoAnuncio--informacion">
+              <div className="informacion--producto">
+                <Input
+                  label="Producto"
+                  variant="faded"
+                  value={producto}
+                  onValueChange={actualizarProducto}
+                  isInvalid={isProductoInvalid}
+                  color={isProductoInvalid ? "danger" : ""}
+                  errorMessage={
+                    isProductoInvalid && "Ingrese un producto valido"
+                  }
+                />
+              </div>
+              <div className="informacion--precio">
+                <Input
+                  label="Precio"
+                  variant="faded"
+                  value={precio}
+                  onValueChange={actualizarPrecio}
+                  isInvalid={!isPrecioInvalid}
+                  color={!isPrecioInvalid ? "danger" : ""}
+                  errorMessage={!isPrecioInvalid && "Ingrese un precio valido"}
+                />
+              </div>
+            </div>
+            <div className="contenidoAnuncio--descripcion">
+            <Textarea
+              variant="faded"
+              label="Descripción"
+              labelPlacement="outside"
+              placeholder="Ingrese una descripcción de su producto (opcional)"
+              // description="Enter a concise description of your project."
+              className="max-w-xs"
+            />
+            </div>
+            
+          </div>
         </div>
         <Boton title="Publicar" />
       </form>

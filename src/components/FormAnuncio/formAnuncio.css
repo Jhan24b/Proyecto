@@ -32,3 +32,32 @@
     justify-content: center;
     margin-top: 16px;
 }
+
+.dropzone {
+    max-width: 40%;
+    border: 2px dashed #cccccc;
+    border-radius: 4px;
+    padding: 0px 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+.contenidoAnuncio{
+    display: flex;
+    flex-direction: column;
+}
+
+.contenidoAnuncio--informacion{
+    display: flex;
+    margin:4px 0px; 
+}
+
+
+.informacion--producto{
+    width: 65%;
+}
+
+.informacion--precio{
+    width: 35%;
+}

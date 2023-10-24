@@ -102,7 +102,7 @@ function App() {
     },
   ]);
   // const [locationData, setLocationData] = useState(null);
-  const [authenticatedUser, setAuthenticatedUser] = useState();
+  const [authenticatedUser, setAuthenticatedUser] = useState(true); //no olvidar quitar el true aqui
   const [tipoForm, setTipoForm] = useState();
 
   //Muestra el formulario para anadir un nuevo colaborador
