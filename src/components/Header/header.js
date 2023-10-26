@@ -5,6 +5,10 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
   Button,
 } from "@nextui-org/react";
 import logo from "../../img/logo.png";
@@ -66,31 +70,69 @@ function Header(props) {
         </NavbarContent>
         <NavbarContent justify="end">
           {/* Botones */}
-          {((!props.form && !props.authenticatedUser)) && (<NavbarItem className="hidden lg:flex">
-            <Button href="#" className="btn-login" onClick={()=>{
-              props.mostrarForm();
-              props.ponerTipoForm('Login');
-            }}>Login</Button>
-          </NavbarItem>)}
-          {((!props.form && !props.authenticatedUser)) && (<NavbarItem>
-            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={() => {
-              props.mostrarForm();
-              props.ponerTipoForm('SignUp');
-            }}>
-              Sign Up
-            </Button>
-          </NavbarItem>)}
-          {(props.form) && (<NavbarItem>
-            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={props.mostrarForm}>
-              Regresar
-            </Button>
-          </NavbarItem>)}
-          {(props.authenticatedUser) && (<NavbarItem>
-            {props.authenticatedUser.nombre}
-            <Button className="btn-sign-up border-color-brown border-width-2" href="#" variant="flat" onClick={props.mostrarSign}>
-              Perfil
-            </Button>
-          </NavbarItem>)}
+          {!props.form && !props.authenticatedUser && (
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                href="#"
+                className="btn-login"
+                onClick={() => {
+                  props.mostrarForm();
+                  props.ponerTipoForm("Login");
+                }}
+              >
+                Login
+              </Button>
+            </NavbarItem>
+          )}
+          {!props.form && !props.authenticatedUser && (
+            <NavbarItem>
+              <Button
+                className="btn-sign-up border-color-brown border-width-2"
+                href="#"
+                variant="flat"
+                onClick={() => {
+                  props.mostrarForm();
+                  props.ponerTipoForm("SignUp");
+                }}
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          )}
+          {props.form && (
+            <NavbarItem>
+              <Button
+                className="btn-sign-up border-color-brown border-width-2"
+                href="#"
+                variant="flat"
+                onClick={props.mostrarForm}
+              >
+                Regresar
+              </Button>
+            </NavbarItem>
+          )}
+          {props.authenticatedUser && (
+            <NavbarItem>
+              {props.authenticatedUser.nombre}
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button variant="bordered">Perfil</Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem key="new">Crear Anuncio</DropdownItem>
+                  <DropdownItem key="copy">Gestionar Anuncios</DropdownItem>
+                  <DropdownItem key="edit">Cerrar Sesión</DropdownItem>
+                  <DropdownItem
+                    key="delete"
+                    className="text-danger"
+                    color="danger"
+                  >
+                    Delete file
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </NavbarItem>
+          )}
         </NavbarContent>
       </Navbar>
     </header>

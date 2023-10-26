@@ -2,25 +2,25 @@ import "./formAnuncio.css";
 
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Input, Button, Textarea } from "@nextui-org/react";
+import { Input, Button, Textarea, Select, SelectItem } from "@nextui-org/react";
 import { v4 as uuid } from "uuid";
 
-import Campo from "../Campo/Campo";
-import ListaOpciones from "../ListaOpciones/ListaOpciones";
-import Boton from "../Boton/boton";
+// import Campo from "../Campo/Campo";
+// import ListaOpciones from "../ListaOpciones/ListaOpciones";
+// import Boton from "../Boton/boton";
 
 function FormAnuncio(props) {
-  const [anuncios, actualizarAnuncios] = useState();
   const [titulo, actualizarTitulo] = useState("");
   const [producto, actualizarProducto] = useState();
   const [precio, actualizarPrecio] = useState();
   const [foto, actualizarFoto] = useState("");
-  const [telefono, actualizarTelefono] = useState("");
   const [equipo, actualizarEquipo] = useState("");
-  const [usuario, actualizarUsuario] = useState("");
-  const [ubicacion, actualizarUbicacion] = useState("");
 
-  const { registrarAnuncio, establecerUser } = props;
+  const { registrarAnuncio } = props;
+
+  const manejarCambio = (e) => {
+    actualizarEquipo(e.target.value);
+  };
 
   const onDrop = (acceptedFiles) => {
     // Manejar los archivos aceptados aquí, por ejemplo, mostrar una vista previa o enviar al servidor.
@@ -37,13 +37,14 @@ function FormAnuncio(props) {
       id: uuid(),
       titulo: titulo,
       foto: foto,
-      usuario: usuario,
-      telefono: telefono,
+      producto: producto,
+      precio: precio,
+      usuario: props.user.id,
       equipo: equipo,
-      ubicacion: ubicacion,
       fav: false,
     };
     registrarAnuncio(datosEnviar);
+    console.log(datosEnviar);
   };
 
   const validateTitulo = (value) => {
@@ -78,12 +79,17 @@ function FormAnuncio(props) {
 
   return (
     <div className="formulario">
-      <form onSubmit={manejarEnvio}>
+      {/* <form onSubmit={manejarEnvio}> */}
+      <form>
         <h2>Crear Anuncio</h2>
         {/* <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]"> */}
         <div className="w-full flex gap-2 max-w-[75%] min-w-[420px]">
           <div {...getRootProps()} className="dropzone">
-            <input {...getInputProps()} />
+            <input
+              {...getInputProps()}
+              value={foto}
+              onChange={actualizarFoto}
+            />
             <p>Arrastra y suelta la foto aquí o haz clic para seleccionar.</p>
           </div>
           <div className="contenidoAnuncio">
@@ -123,19 +129,33 @@ function FormAnuncio(props) {
               </div>
             </div>
             <div className="contenidoAnuncio--descripcion">
-            <Textarea
-              variant="faded"
-              label="Descripción"
-              labelPlacement="outside"
-              placeholder="Ingrese una descripcción de su producto (opcional)"
-              // description="Enter a concise description of your project."
-              className="max-w-xs"
-            />
+              <Select
+                label="Categoría"
+                placeholder="Elige una categoría"
+                className="max-w-xs"
+                value={equipo}
+                onChange={manejarCambio}
+              >
+                {props.data.map((eq) => (
+                  <SelectItem key={eq} value={eq}>
+                    {eq}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Textarea
+                variant="faded"
+                label="Descripción"
+                labelPlacement="outside"
+                placeholder="Ingrese una descripcción de su producto (opcional)"
+                // description="Enter a concise description of your project."
+                className="max-w-xs"
+              />
             </div>
-            
           </div>
         </div>
-        <Boton title="Publicar" />
+        <Button color="primary" variant="faded" onClick={manejarEnvio}>
+          Publicar
+        </Button>
       </form>
     </div>
   );

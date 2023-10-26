@@ -13,18 +13,19 @@ import { NextUIProvider } from "@nextui-org/react";
 import Panel from "./components/Panel/Panel";
 import Top from "./components/Top/Top";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
-import { AiOutlineVerified } from "react-icons/ai";
+// import { AiOutlineVerified } from "react-icons/ai";
 
 function App() {
+  // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
   useEffect(() => {
     // Acceder a la base de datos de Firebase
-    const db = getDatabase(app);
-    const dbRef = ref(db, "usuarios");
+    // const db = getDatabase(app);
+    // const dbRef = ref(db, "usuarios");
 
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("Datos de la base de datos:", data);
-    });
+    // onValue(dbRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log("Datos de la base de datos:", data);
+    // });
 
     // Realizar una operación de escritura
     // set(dbRef, { dato: 'Hola, mundo' });
@@ -159,16 +160,16 @@ function App() {
 
   const registrarAnuncio = (anuncio) => {
     //Spread Operator hace copia de un valor en este caso de colaboradores
-    const db = getDatabase(app);
-    const dbRef = ref(db, "anuncios");
+    // const db = getDatabase(app);
+    // const dbRef = ref(db, "anuncios");
 
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("Datos de la base de datos:", data);
-    });
+    // onValue(dbRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log("Datos de la base de datos:", data);
+    // });
 
-    // Realizar una operación de escritura
-    push(dbRef, anuncio);
+    // // Realizar una operación de escritura
+    // push(dbRef, anuncio);
   };
 
   //Actualizar color de equipo
@@ -217,7 +218,13 @@ function App() {
         ponerTipoForm={ponerTipoForm}
       />
       <Panel />
-      {authenticatedUser && <FormAnuncio registrarAnuncio={registrarAnuncio} data={equipos.map((equipo) => equipo.titulo)}/>}
+      {authenticatedUser && (
+        <FormAnuncio
+          registrarAnuncio={registrarAnuncio}
+          data={equipos.map((equipo) => equipo.titulo)}
+          user={authenticatedUser}
+        />
+      )}
       {!mostrarFormulario && (
         <Top
           colaboradores={colaboradores}
