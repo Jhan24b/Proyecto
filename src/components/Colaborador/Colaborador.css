@@ -1,51 +1,31 @@
 .colaborador{
-    width: 280px;
+    width: 320px;
     margin-bottom: 24px;
     position: relative;
+    padding: 16px 10px;
+    border-radius: 8px;
 }
 
-.colaborador .encabezado{
-    background-color: #f0f0f0;
-    border-radius: 10px 10px 0px 0px;
-    display: flex;
-    justify-content: center;
-}
-
-.colaborador img{
-    width: 100px;
-    border-radius: 50%;
-    position: relative;
-    bottom: -50px;
-}
-
-.colaborador .info{
-    background-color: #fff;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.08);
-    border-radius: 0px 0px 10px 10px;
-    padding-top: 90px;
-    padding-bottom: 40px;
-    min-height: 100px;
-    font-family: 'Montserrat','sans-serif';
+.anuncio{
+    border-radius: 8px;
+    height: 320px;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.anuncio--titulo{
+    text-align: center;
+}
+
+.anuncio--contenido{
+    display: flex;
+    justify-content: space-evenly;
     align-items: center;
 }
 
-.colaborador .info h4{
-    color: #6278f7;
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.colaborador .info h5{
-    font-size: 18px;
-    line-height: 22px;
-    color: #212121;
-    padding: 0 24px;
-    font-weight: 400;
-    margin: 0;
+.contenido--foto{
+    width: 100px;
 }
 
 .eliminar{
