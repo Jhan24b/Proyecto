@@ -1,7 +1,6 @@
 import "./MyOrg.css";
 import React from "react";
 import { Button } from "@nextui-org/react";
-import Boton from "../Boton/boton";
 // import btn from "../../img/btn.png"
 
 const MyOrg = (props) => {
@@ -16,7 +15,7 @@ const MyOrg = (props) => {
 
   return (
     <section className="orgSection">
-      <h3 className="title"> Anuncios </h3>
+      <h3 className="title"> ANUNCIOS </h3>
       <div className="filtroTipo">
         <Button color="primary" variant="bordered">
           Productos

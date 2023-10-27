@@ -2,13 +2,13 @@
 
 import "./Colaborador.css";
 import MiniUser from "../MiniUser/MiniUser";
-import { AiOutlineUserDelete, AiOutlineHeart } from "react-icons/ai";
-import { FcLike } from "react-icons/fc";
+// import { AiOutlineUserDelete, AiOutlineHeart } from "react-icons/ai";
+// import { FcLike } from "react-icons/fc";
 
 const Colaborador = (props) => {
-  const { titulo, precio, foto, id, fav, ubicacion, producto, usuario } =
-    props.datos;
-  const { eliminarColaborador, like } = props;
+  // const { titulo, precio, foto, id, fav, ubicacion, producto, usuario } = props.datos;
+  const { titulo, precio, foto, ubicacion, producto, usuario } = props.datos;
+  // const { eliminarColaborador, like } = props;
   return (
     <section className="colaborador">
       {/* <AiOutlineUserDelete onClick={() => eliminarColaborador(id)} className="eliminar"/>

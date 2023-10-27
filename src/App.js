@@ -1,32 +1,35 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { getDatabase, ref, onValue, push, get } from "firebase/database";
+
 import { v4 as uuidv4 } from "uuid";
 
-import "./App.css";
 import app from "./firebase/firebase";
-import { getDatabase, ref, onValue, push, get } from "firebase/database";
+
+import "./App.css";
+
+import { NextUIProvider } from "@nextui-org/react";
+
 import Formulario from "./components/Formulario/formulario";
 import Header from "./components/Header/header";
 import MyOrg from "./components/MyOrg/MyOrg";
 import Equipo from "./components/Equipo/Equipo";
 import Footer from "./components/Footer/Footer";
-import { NextUIProvider } from "@nextui-org/react";
 import Panel from "./components/Panel/Panel";
 import Top from "./components/Top/Top";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 // import { AiOutlineVerified } from "react-icons/ai";
 
 function App() {
+  // const [usersDB, setUsersDB] = useState();
+  // const [addDB, setAddDB] = useState();
+
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
   useEffect(() => {
     // Acceder a la base de datos de Firebase
     // const db = getDatabase(app);
-    // const dbRef = ref(db, "usuarios");
-    // onValue(dbRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log("Datos de la base de datos:", data);
-    // });
-    // Realizar una operación de escritura
-    // set(dbRef, { dato: 'Hola, mundo' });
+    // setUsersDB(ref(db, "usuarios"));
   }, []);
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
@@ -46,7 +49,7 @@ function App() {
         foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
         telefono: "987957337",
       },
-    }
+    },
     // {
     //   id: uuidv4,
     //   nombre: "Manuel Prada",
@@ -229,6 +232,34 @@ function App() {
         form={mostrarFormulario}
         ponerTipoForm={ponerTipoForm}
       />
+      <Router>
+        <Routes>
+          <Route path="/login">
+            <Formulario
+              data={equipos.map((equipo) => equipo.titulo)}
+              registrarColaborador={registrarColaborador}
+              crearEquipo={crearEquipo}
+              establecerUser={establecerUser}
+              tipoForm="Login"
+              mostrarForm={cambiarMostrar}
+              verificar={verificarSesion}
+            />
+          </Route>
+          <Route path="/sign-up">
+            <Formulario
+              data={equipos.map((equipo) => equipo.titulo)}
+              registrarColaborador={registrarColaborador}
+              crearEquipo={crearEquipo}
+              establecerUser={establecerUser}
+              tipoForm="SignUp"
+              mostrarForm={cambiarMostrar}
+              verificar={verificarSesion}
+            />
+          </Route>
+          <Route path="/main">{/* Componente de la otra página */}</Route>
+          <Route path="/">{/* Componente de la página principal */}</Route>
+        </Routes>
+      </Router>
       <Panel />
       {authenticatedUser && (
         <FormAnuncio
