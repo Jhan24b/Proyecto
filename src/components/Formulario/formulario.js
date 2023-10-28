@@ -215,15 +215,6 @@ function Formulario(props) {
               errorMessage={!isStrong && "Ingrese una contraseña valida"}
             />
           </div>
-
-          {
-            /* <ListaOpciones
-            valor={equipo}
-            actualizarValor={actualizarEquipo}
-            equipos={props.data}
-          />*/
-            // <Boton title="Registrarse" />
-          }
           <div className="botonLogin">
             <Button color="primary" variant="ghost" onClick={manejarEnvio}>
               Registrarse

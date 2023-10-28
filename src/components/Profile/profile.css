@@ -1,0 +1,32 @@
+.profileC{
+    display: flex;
+    flex-direction: column;
+    padding: 120px 15%;
+}
+
+.datosC{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.foto-miniC{
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    padding: 0px 5%;
+    display: flex;
+    align-items: center;
+}
+
+.detallesC{
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+}
+
+.anunciosC{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}

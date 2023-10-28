@@ -1,4 +1,4 @@
-// SE TRATA DE LOS USUARIOS
+// SE TRATA DE LOS ANUNCIOS
 
 import "./Colaborador.css";
 import MiniUser from "../MiniUser/MiniUser";

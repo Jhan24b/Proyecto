@@ -1,5 +1,6 @@
 import "./header.css";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   Navbar,
   NavbarBrand,
@@ -18,8 +19,9 @@ function Header(props) {
     <header className="header">
       <Navbar>
         <NavbarBrand>
-          <img src={logo} alt="logo" />
-          {/* <p className="font-bold text-inherit">Friendly Farm</p> */}
+          <NavLink to="/">
+            <img src={logo} alt="logo" />
+          </NavLink>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           {/* Buscador */}
@@ -72,15 +74,8 @@ function Header(props) {
           {/* Botones */}
           {!props.form && !props.authenticatedUser && (
             <NavbarItem className="hidden lg:flex">
-              <Button
-                href="#"
-                className="btn-login"
-                onClick={() => {
-                  props.mostrarForm();
-                  props.ponerTipoForm("Login");
-                }}
-              >
-                Login
+              <Button href="#" className="btn-login">
+                <NavLink to="/login">Login</NavLink>
               </Button>
             </NavbarItem>
           )}
@@ -95,7 +90,7 @@ function Header(props) {
                   props.ponerTipoForm("SignUp");
                 }}
               >
-                Sign Up
+                <NavLink to="/sign-up">Sign Up</NavLink>
               </Button>
             </NavbarItem>
           )}
@@ -107,7 +102,7 @@ function Header(props) {
                 variant="flat"
                 onClick={props.mostrarForm}
               >
-                Regresar
+                <NavLink to="/">Regresar</NavLink>
               </Button>
             </NavbarItem>
           )}
@@ -119,15 +114,21 @@ function Header(props) {
                   <Button variant="bordered">Perfil</Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem key="new">Crear Anuncio</DropdownItem>
-                  <DropdownItem key="copy">Gestionar Anuncios</DropdownItem>
-                  <DropdownItem key="edit">Cerrar Sesión</DropdownItem>
+                  <DropdownItem key="profile">
+                    <NavLink to="/profile">Perfil</NavLink>
+                  </DropdownItem>
+                  <DropdownItem key="new-ad">
+                    <NavLink to="/add-ad">Crear Anuncio</NavLink>
+                  </DropdownItem>
+                  <DropdownItem key="manage-ads">
+                    <NavLink to="/manage-ads">Gestionar Anuncios</NavLink>
+                  </DropdownItem>
                   <DropdownItem
-                    key="delete"
+                    key="end-session"
                     className="text-danger"
                     color="danger"
                   >
-                    Delete file
+                    <NavLink to="/">Cerrar Sesión</NavLink>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
