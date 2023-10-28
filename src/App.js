@@ -234,32 +234,39 @@ function App() {
       />
       <Router>
         <Routes>
-          <Route path="/login">
-            <Formulario
-              data={equipos.map((equipo) => equipo.titulo)}
-              registrarColaborador={registrarColaborador}
-              crearEquipo={crearEquipo}
-              establecerUser={establecerUser}
-              tipoForm="Login"
-              mostrarForm={cambiarMostrar}
-              verificar={verificarSesion}
-            />
-          </Route>
-          <Route path="/sign-up">
-            <Formulario
-              data={equipos.map((equipo) => equipo.titulo)}
-              registrarColaborador={registrarColaborador}
-              crearEquipo={crearEquipo}
-              establecerUser={establecerUser}
-              tipoForm="SignUp"
-              mostrarForm={cambiarMostrar}
-              verificar={verificarSesion}
-            />
-          </Route>
+          <Route
+            path="/login"
+            element={
+              <Formulario
+                data={equipos.map((equipo) => equipo.titulo)}
+                registrarColaborador={registrarColaborador}
+                crearEquipo={crearEquipo}
+                establecerUser={establecerUser}
+                tipoForm="Login"
+                mostrarForm={cambiarMostrar}
+                verificar={verificarSesion}
+              ></Formulario>
+            }
+          ></Route>
+          <Route
+            path="/sign-up"
+            element={
+              <Formulario
+                data={equipos.map((equipo) => equipo.titulo)}
+                registrarColaborador={registrarColaborador}
+                crearEquipo={crearEquipo}
+                establecerUser={establecerUser}
+                tipoForm="SignUp"
+                mostrarForm={cambiarMostrar}
+                verificar={verificarSesion}
+              ></Formulario>
+            }
+          ></Route>
           <Route path="/main">{/* Componente de la otra página */}</Route>
           <Route path="/">{/* Componente de la página principal */}</Route>
         </Routes>
       </Router>
+
       <Panel />
       {authenticatedUser && (
         <FormAnuncio
