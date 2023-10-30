@@ -2,10 +2,21 @@
     display: flex;
     flex-direction: column;
     padding: 64px 64px;
+    box-sizing: border-box;
 }
 
 .destacados{
     display: flex;
     justify-content: space-evenly;
     padding: 32px 0px;
+}
+
+.titleT{
+    width: 240px;
+    color: #e39d34;
+    font-family: 'Lilita One', 'Raleway', 'Roboto';
+    font-size: 40px;
+    font-weight: 400;
+    padding-bottom: 24px;
+    border-bottom: 4px solid #e39d34;
 }

@@ -280,7 +280,7 @@ function App() {
           mostrarForm={cambiarMostrar}
           authenticatedUser={authenticatedUser}
           form={mostrarFormulario}
-          // ponerTipoForm={ponerTipoForm}
+          fotoProf= {authenticatedUser.foto}
         />
         <Routes>
           <Route

@@ -5,7 +5,7 @@ function Top(props){
     const {colaboradores} = props;
     return(
         <div className="top" >
-            <p>Los mas top</p>
+            <h3 className="titleT">Los más top</h3>
             <div className="destacados">
             {colaboradores.map((colaborador) =>{
                 return (

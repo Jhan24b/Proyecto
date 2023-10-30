@@ -108,10 +108,12 @@ function Header(props) {
           )}
           {props.authenticatedUser && (
             <NavbarItem>
-              {props.authenticatedUser.nombre}
+              
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="bordered">Perfil</Button>
+                  <Button variant="bordered">
+                    <img src={props.fotoProf}/>
+                    {props.authenticatedUser.nombre}</Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                   <DropdownItem key="profile">

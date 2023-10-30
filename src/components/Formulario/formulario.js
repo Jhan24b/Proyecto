@@ -3,15 +3,11 @@ import "./formulario.css";
 import React, { useState } from "react";
 import { Input, Button } from "@nextui-org/react";
 
-// import Campo from "../Campo/Campo";
-// import ListaOpciones from "../ListaOpciones/ListaOpciones";
-// import Boton from "../Boton/boton";
 import { v4 as uuid } from "uuid";
 
 function Formulario(props) {
   const [nombre, actualizarNombre] = useState("");
   const [telefono, actualizarTelefono] = useState("");
-  // const [color, actualizarColor] = useState("");
   const [email, actualizarEmail] = useState("");
   const [password, actualizarPassword] = useState("");
   const [dni, actualizarDni] = useState("");
@@ -150,8 +146,6 @@ function Formulario(props) {
       if(props.verificar(email, password)){
         props.mostrarForm()
       }
-      // establecerUser({ nombre: "Daniel Lopez", dni: 10101010 });
-      // props.mostrarForm();
     }
   };
 

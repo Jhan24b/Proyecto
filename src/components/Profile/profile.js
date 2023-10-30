@@ -15,7 +15,6 @@ function Profile(props) {
   const [dni, actualizarDni] = useState(props.datosUser.dni);
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
-  const {id} = props.datosUser.id;
 
   const { registrarColaborador, establecerUser } = props;
 
@@ -139,82 +138,102 @@ function Profile(props) {
     }
   };
 
+  const manejarActualizacionFoto = (newFoto) => {
+    setFoto(newFoto);
+  };
 
   return (
     <div className="profileC">
       <div className="datosC">
         <div className="foto-miniC">
           <img src={foto} alt="fotoUsuarioC"></img>
+          <Button
+            color="primary"
+            variant="ghost"
+            onClick={manejarActualizacionFoto}
+          >
+            Actualizar Foto
+          </Button>
         </div>
         <div className="detallesC">
-        <form>
-          <h2>DATOS DEL PERFIL</h2>
-          <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]">
-            <Input
-              label="Nombres"
-              variant="faded"
-              value={nombre}
-              onValueChange={actualizarNombre}
-              isInvalid={isNameValid}
-              color={isNameValid ? "danger" : ""}
-              errorMessage={isNameValid && "Ingrese un nombre valido"}
-            />
-            <Input
-              label="DNI"
-              variant="faded"
-              value={dni}
-              onValueChange={actualizarDni}
-              isInvalid={isDniInvalid}
-              color={isDniInvalid ? "danger" : ""}
-              errorMessage={isDniInvalid && "Ingrese un numero de DNI"}
-            />
+          <form>
+            <h2 className="tituloDetalleC">DATOS DEL PERFIL</h2>
+            <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]">
+              <Input
+                label="Nombres"
+                variant="faded"
+                value={nombre}
+                onValueChange={actualizarNombre}
+                isInvalid={isNameValid}
+                color={isNameValid ? "danger" : ""}
+                errorMessage={isNameValid && "Ingrese un nombre valido"}
+              />
+              <Input
+                label="DNI"
+                variant="faded"
+                value={dni}
+                onValueChange={actualizarDni}
+                isInvalid={isDniInvalid}
+                color={isDniInvalid ? "danger" : ""}
+                errorMessage={isDniInvalid && "Ingrese un numero de DNI"}
+              />
 
-            <Input
-              label="Telefono"
-              variant="faded"
-              value={telefono}
-              onValueChange={actualizarTelefono}
-              isInvalid={isPhoneInvalid}
-              color={isPhoneInvalid ? "danger" : ""}
-              errorMessage={
-                isPhoneInvalid && "Ingrese un numero de telefono valido"
-              }
-            />
+              <Input
+                label="Telefono"
+                variant="faded"
+                value={telefono}
+                onValueChange={actualizarTelefono}
+                isInvalid={isPhoneInvalid}
+                color={isPhoneInvalid ? "danger" : ""}
+                errorMessage={
+                  isPhoneInvalid && "Ingrese un numero de telefono valido"
+                }
+              />
 
-            <Input
-              label="Correo Electronico"
-              type="email"
-              variant="faded"
-              value={email}
-              onValueChange={actualizarEmail}
-              isInvalid={isInvalid}
-              color={isInvalid ? "danger" : ""}
-              errorMessage={isInvalid && "Ingrese un correo valido"}
-            />
+              <Input
+                label="Correo Electronico"
+                type="email"
+                variant="faded"
+                value={email}
+                onValueChange={actualizarEmail}
+                isInvalid={isInvalid}
+                color={isInvalid ? "danger" : ""}
+                errorMessage={isInvalid && "Ingrese un correo valido"}
+              />
 
-<Input
-              label="Ubicacion"
-              variant="faded"
-              value={ubicacion}
-              onValueChange={setUbicacion}
-            />
-
-          </div>
-          <div className="botonLogin">
-            <Button color="primary" variant="ghost" onClick={manejarActualizacion}>
-              Registrarse 
-            </Button>
-          </div>
-        </form>
+              <Input
+                label="Ubicacion"
+                variant="faded"
+                value={ubicacion}
+                onValueChange={setUbicacion}
+              />
+            </div>
+            <div className="botonesEdicion">
+              <Button
+                color="primary"
+                variant="ghost"
+                onClick={manejarActualizacion}
+              >
+                Actualizar
+              </Button>
+              <Button
+                color="secondary"
+                variant="ghost"
+                onClick={manejarActualizacion}
+              >
+                Cambiar Contraseña
+              </Button>
+            </div>
+          </form>
         </div>
-        <div className="contactoC">
-        </div>
+        <div className="contactoC"></div>
       </div>
       <div className="anunciosC">
-        {anunciosUser.filter((anuncio) => anuncio.usuario.id === id) //esto es localmente 
-        //   .filter((anuncio) => anuncio.user === id) <-- esto es lo principal
-          .map((anuncio) => {
-            return <Colaborador datos={anuncio} />;
+        {/* //   .filter((anuncio) => anuncio.user === id) <-- esto es lo principal */}
+        {anunciosUser
+          .filter((anuncio) => anuncio.usuario.id === props.datosUser.id)
+          .map((ad) => {
+            return <Colaborador datos={ad} />;
           })}
       </div>
     </div>

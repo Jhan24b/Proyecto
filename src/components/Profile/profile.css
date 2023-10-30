@@ -1,7 +1,7 @@
 .profileC{
     display: flex;
     flex-direction: column;
-    padding: 120px 15%;
+    padding: 40px 15%;
 }
 
 .datosC{
@@ -17,6 +17,8 @@
     padding: 0px 5%;
     display: flex;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .detallesC{
@@ -29,4 +31,15 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+.tituloDetalleC{
+    text-align: center;
+    padding: 16px 0px;
+}
+
+.botonesEdicion{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 16px 0px;
 }
