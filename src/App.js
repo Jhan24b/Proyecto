@@ -20,6 +20,7 @@ import Panel from "./components/Panel/Panel";
 import Top from "./components/Top/Top";
 import Profile from "./components/Profile/profile";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
+import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
 // import { AiOutlineVerified } from "react-icons/ai";
 
 function App() {
@@ -277,18 +278,33 @@ function App() {
     // Obtener el SDK de Firebase
     const db = getDatabase(app);
     const dbRef = ref(db, "usuarios");
-  
+
     // Actualizar el documento
     dbRef.doc(id).update({
-      newPassword
+      password: newPassword.password,
     });
-  
+
     // Mostrar un mensaje de confirmación
     alert(`La contraseña se actualizó correctamente`);
   }
-  
 
+  function actualizarDatosUser(id, newData) {
+    const db = getDatabase(app);
+    const dbRef = ref(db, "usuarios");
 
+    // Actualizar el documento
+    dbRef.doc(id).update({
+      nombre: newData.nombre,
+      foto: newData.foto,
+      telefono: newData.telefono,
+      email: newData.email,
+      ubicacion: newData.ubicacion,
+      dni: newData.dni,
+    });
+
+    // Mostrar un mensaje de confirmación
+    alert(`Los datos se actualizaron correctamente`);
+  }
 
   return (
     <NextUIProvider>
@@ -297,7 +313,7 @@ function App() {
           mostrarForm={cambiarMostrar}
           authenticatedUser={authenticatedUser}
           form={mostrarFormulario}
-          fotoProf= {authenticatedUser.foto}
+          fotoProf={authenticatedUser.foto}
         />
         <Routes>
           <Route
@@ -375,7 +391,16 @@ function App() {
               <Profile
                 datosUser={authenticatedUser}
                 anunciosUser={colaboradores}
-                actualizarPassword = {actualizarPassword}
+                actualizarDatosUser={actualizarDatosUser}
+              />
+            }
+          ></Route>
+          <Route
+            path="/profile/cambioContrasena"
+            element={
+              <CambioContrasena
+                idUser={authenticatedUser.id}
+                actualizarPassword={actualizarPassword}
               />
             }
           ></Route>

@@ -1,9 +1,10 @@
 import "./profile.css";
 
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import Colaborador from "../Colaborador/Colaborador";
-import { PiWhatsappLogoDuotone } from "react-icons/pi";
+// import { PiWhatsappLogoDuotone } from "react-icons/pi";
 
 function Profile(props) {
   const { anunciosUser } = props;
@@ -11,12 +12,11 @@ function Profile(props) {
   const [telefono, actualizarTelefono] = useState(props.datosUser.telefono);
   // const [color, actualizarColor] = useState("");
   const [email, actualizarEmail] = useState(props.datosUser.email);
-  const [password, setPassword] = useState(props.datosUser.password);
   const [dni, actualizarDni] = useState(props.datosUser.dni);
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
 
-  const { registrarColaborador, establecerUser, actualizarPassword } = props;
+  const { actualizarDatosUser, establecerUser } = props;
 
   const validateEmail = (value) => {
     // Expresión regular que verifica si el valor es una dirección de correo electrónico válida.
@@ -33,36 +33,6 @@ function Profile(props) {
   const validateDNI = (value) => {
     const dniPattern = /^[0-9]{8}$/;
     return dniPattern.test(value);
-  };
-
-  const validateStrongPassword = (value) => {
-    // La contraseña debe tener al menos 8 caracteres
-    if (value.length < 8) {
-      return false;
-    }
-
-    // Debe contener al menos una letra mayúscula
-    if (!/[A-Z]/.test(value)) {
-      return false;
-    }
-
-    // Debe contener al menos una letra minúscula
-    if (!/[a-z]/.test(value)) {
-      return false;
-    }
-
-    // Debe contener al menos un dígito
-    if (!/\d/.test(value)) {
-      return false;
-    }
-
-    // Debe contener al menos un carácter especial (por ejemplo, @, #, $, etc.)
-    if (!/[@#$%^&+=]/.test(value)) {
-      return false;
-    }
-
-    // Si pasa todas las condiciones anteriores, la contraseña es fuerte
-    return true;
   };
 
   const validatePhone = (value) => {
@@ -86,12 +56,6 @@ function Profile(props) {
     return validateEmail(email) ? false : true;
   }, [email]);
 
-  const isStrong = React.useMemo(() => {
-    if (password === "") return true;
-
-    return validateStrongPassword(password) ? true : false;
-  }, [password]);
-
   const isPhoneInvalid = React.useMemo(() => {
     if (telefono === "") return false;
     return validatePhone(telefono) ? false : true;
@@ -103,28 +67,24 @@ function Profile(props) {
       email.length > 0 &&
       nombre.length > 0 &&
       dni.length > 0 &&
-      telefono.length > 0 &&
-      password.length > 0
+      telefono.length > 0
     ) {
       if (
         !isDniInvalid &&
         isNameValid &&
         !isPhoneInvalid &&
-        isStrong &&
         !isInvalid
       ) {
         const datosEnviar = {
           nombre: nombre,
-          foto: "",
+          foto: foto,
           dni: dni,
           telefono: telefono,
-          equipo: "",
-          ubicacion: "",
+          ubicacion: ubicacion,
           email: email,
-          password: password,
           fav: false,
         };
-        registrarColaborador(datosEnviar);
+        actualizarDatosUser(props.datosUser.id, datosEnviar);
         establecerUser({
           nombre: nombre,
           dni: dni,
@@ -137,20 +97,6 @@ function Profile(props) {
       }
     }
   };
-
-
-  const manejarNuevoPassword = (event) => {
-    event.preventDefault();
-    if (
-      password.length > 0 && isStrong
-    ) {
-      const datosEnviar = {
-        password: password
-      };
-      actualizarPassword(datosEnviar);
-    }
-  };
-
 
   const manejarActualizacionFoto = (newFoto) => {
     setFoto(newFoto);
@@ -233,14 +179,12 @@ function Profile(props) {
               <Button
                 color="secondary"
                 variant="ghost"
-                onClick={manejarNuevoPassword}
               >
-                Cambiar Contraseña
+                <NavLink to="/profile/cambioContrasena">Cambiar Contraseña</NavLink>
               </Button>
             </div>
           </form>
         </div>
-        <div className="contactoC"></div>
       </div>
       <div className="anunciosC">
         {/* //   .filter((anuncio) => anuncio.user === id) <-- esto es lo principal */}

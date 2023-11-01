@@ -14,6 +14,7 @@
 
 .redes{
     display: flex;
+    margin: 10px 0px;
 }
 
 .logo{
@@ -30,4 +31,10 @@
 
 .acordeon::aria-expanded{
     width: 480px;
+}
+
+.footer--contenido{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
