@@ -11,12 +11,12 @@ function Profile(props) {
   const [telefono, actualizarTelefono] = useState(props.datosUser.telefono);
   // const [color, actualizarColor] = useState("");
   const [email, actualizarEmail] = useState(props.datosUser.email);
-  const [password, actualizarPassword] = useState(props.datosUser.password);
+  const [password, setPassword] = useState(props.datosUser.password);
   const [dni, actualizarDni] = useState(props.datosUser.dni);
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
 
-  const { registrarColaborador, establecerUser } = props;
+  const { registrarColaborador, establecerUser, actualizarPassword } = props;
 
   const validateEmail = (value) => {
     // Expresión regular que verifica si el valor es una dirección de correo electrónico válida.
@@ -138,6 +138,20 @@ function Profile(props) {
     }
   };
 
+
+  const manejarNuevoPassword = (event) => {
+    event.preventDefault();
+    if (
+      password.length > 0 && isStrong
+    ) {
+      const datosEnviar = {
+        password: password
+      };
+      actualizarPassword(datosEnviar);
+    }
+  };
+
+
   const manejarActualizacionFoto = (newFoto) => {
     setFoto(newFoto);
   };
@@ -219,7 +233,7 @@ function Profile(props) {
               <Button
                 color="secondary"
                 variant="ghost"
-                onClick={manejarActualizacion}
+                onClick={manejarNuevoPassword}
               >
                 Cambiar Contraseña
               </Button>

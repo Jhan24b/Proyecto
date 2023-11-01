@@ -273,6 +273,23 @@ function App() {
     actualizarColaboradores(colaboradoresActualizados);
   };
 
+  function actualizarPassword(id, newPassword) {
+    // Obtener el SDK de Firebase
+    const db = getDatabase(app);
+    const dbRef = ref(db, "usuarios");
+  
+    // Actualizar el documento
+    dbRef.doc(id).update({
+      newPassword
+    });
+  
+    // Mostrar un mensaje de confirmación
+    alert(`La contraseña se actualizó correctamente`);
+  }
+  
+
+
+
   return (
     <NextUIProvider>
       <Router>
@@ -358,6 +375,7 @@ function App() {
               <Profile
                 datosUser={authenticatedUser}
                 anunciosUser={colaboradores}
+                actualizarPassword = {actualizarPassword}
               />
             }
           ></Route>

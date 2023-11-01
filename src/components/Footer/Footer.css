@@ -23,3 +23,11 @@
 .redes img{
     padding: 0px 15px;
 }
+
+.contacto--footer{
+    box-sizing: border-box;
+}
+
+.acordeon::aria-expanded{
+    width: 480px;
+}
