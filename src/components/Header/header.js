@@ -112,7 +112,7 @@ function Header(props) {
               <Dropdown>
                 <DropdownTrigger>
                   <Button variant="bordered">
-                    <img src={props.fotoProf}/>
+                    <img src={props.fotoProf} alt="img-profile"/>
                     {props.authenticatedUser.nombre}</Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { getDatabase, ref, onValue, push, get } from "firebase/database";
@@ -21,6 +21,7 @@ import Top from "./components/Top/Top";
 import Profile from "./components/Profile/profile";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
+import Maps from "./components/Maps/Maps";
 // import { AiOutlineVerified } from "react-icons/ai";
 
 function App() {
@@ -306,6 +307,29 @@ function App() {
     alert(`Los datos se actualizaron correctamente`);
   }
 
+  // const mapRef = useRef(null);
+  // const map = new L.Map(document.querySelector("#map"));
+  // useEffect(() => {
+  //   const map = new L.Map(mapRef.current);
+
+  //   // Set the map options
+  //   map.setOptions({
+  //     center: [-34.603722, -58.381611],
+  //     zoom: 10,
+  //   });
+
+  //   // Add a tile layer
+  //   const tileLayer = new L.TileLayer(
+  //     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  //   );
+  //   map.addLayer(tileLayer);
+
+  //   // Add a marker
+  //   const marker = new L.Marker([-34.603722, -58.381611]);
+  //   marker.bindPopup("Mi casa");
+  //   map.addLayer(marker);
+  // }, []);
+
   return (
     <NextUIProvider>
       <Router>
@@ -358,6 +382,11 @@ function App() {
             element={
               <div>
                 <Panel />
+                <div>
+                  <Suspense fallback={<div>Cargando...</div>}>
+                    <Maps />
+                  </Suspense>
+                </div>
                 <Top
                   colaboradores={colaboradores}
                   eliminarColaborador={eliminarColaborador}
