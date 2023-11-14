@@ -7,7 +7,8 @@ import {
   onValue,
   push,
   get,
-  remove, update
+  remove,
+  update,
 } from "firebase/database";
 
 import { v4 as uuidv4 } from "uuid";
@@ -30,45 +31,68 @@ import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
 import Maps from "./components/Maps/Maps";
 
-
 function App() {
-  // const [usersDB, setUsersDB] = useState();
-  // const [addDB, setAddDB] = useState();
+  const [usersDB, setUsersDB] = useState();
+  const [addDB, setAddDB] = useState();
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(true);
 
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
-  useEffect( () => {
-    // Acceder a la base de datos de Firebase
-    // const db = getDatabase(app);
-    // try {
-    //   const snapshot =  get(ref(db, "usuarios"));
-    //   if (snapshot.exists()) {
-    //     const data = snapshot.val();
-    //     // setUsersDB(data);
-    //     // for (const userId in data) {
-    //     //   const u = data[userId];
-    //     // }
-    //   }
-    // } catch (error) {
-    //   console.error("Error inesperado:", error);
-    // }
+  useEffect(() => {
+    const fetchData = async () => {
+      const db = getDatabase(app);
+      const usersRef = ref(db, "usuarios");
+
+      try {
+        const snapshot = await get(usersRef);
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+
+          // Convierte los datos a un array de objetos
+          const usersArray = Object.keys(data).map((userId) => ({
+            id: userId,
+            ...data[userId],
+          }));
+
+          setUsersDB(usersArray);
+          setLoading1(false);
+        }
+      } catch (error) {
+        console.error("Error inesperado:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
-    // Acceder a la base de datos de Firebase
-    // const db = getDatabase(app);
-    // try {
-    //   const snapshot =  get(ref(db, "anuncios"));
-    //   if (snapshot.exists()) {
-    //     const data = snapshot.val();
-    //     // setAddDB(data);
-    //     // for (const userId in data) {
-    //     //   const u = data[userId];
-    //     // }
-    //   }
-    // } catch (error) {
-    //   console.error("Error inesperado:", error);
-    // }
-  }, [])
+    const fetchData = async () => {
+      const db = getDatabase(app);
+      const anunciosRef = ref(db, "anuncios");
+
+      try {
+        const snapshot = await get(anunciosRef);
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+
+          // Convierte los datos a un array de objetos
+          const addArray = Object.keys(data).map((anuncioId) => ({
+            id: anuncioId,
+            ...data[anuncioId],
+          }));
+
+          setAddDB(addArray);
+          setLoading2(false);
+        }
+      } catch (error) {
+        console.error("Error inesperado:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
   const [colaboradores, actualizarColaboradores] = useState([
@@ -197,26 +221,17 @@ function App() {
     },
   ]);
   // const [locationData, setLocationData] = useState(null);
-  const [authenticatedUser, setAuthenticatedUser] = useState({
-    id: "1",
-    nombre: "Manuel Prada",
-    foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-    telefono: "955664455",
-    email: "abc@gmail.com",
-    ubicacion: "sucasa",
-    password: "1234Abcd%",
-    dni: "78587487",
-  });
-  // const [tipoForm, setTipoForm] = useState();
+  const [authenticatedUser, setAuthenticatedUser] = useState();
+  const [tipoForm, setTipoForm] = useState();
 
   //Muestra el formulario para anadir un nuevo colaborador
   const cambiarMostrar = () => {
     actualizarMostrar(!mostrarFormulario);
   };
 
-  // const ponerTipoForm = (tipo) => {
-  //   setTipoForm(tipo);
-  // };
+  const ponerTipoForm = (tipo) => {
+    setTipoForm(tipo);
+  };
 
   const establecerUser = (usuario) => {
     setAuthenticatedUser(usuario);
@@ -405,7 +420,7 @@ function App() {
           mostrarForm={cambiarMostrar}
           authenticatedUser={authenticatedUser}
           form={mostrarFormulario}
-          fotoProf={authenticatedUser.foto}
+          ponerTipoForm={ponerTipoForm}
         />
         <Routes>
           <Route
@@ -455,27 +470,35 @@ function App() {
                     <Maps />
                   </Suspense>
                 </div>
-                <Top
-                  colaboradores={colaboradores}
-                  eliminarColaborador={eliminarColaborador}
-                  actualizarColor={actualizarColor}
-                  like={like}
-                />
+                {/* aqui se debe cambiar a usuarios */}
+                <div>
+                  <Suspense fallback={<div>Cargando...</div>}>
+                  {loading2 ? <div>Cargando datos...</div> : <Top
+                      colaboradores={addDB}
+                      eliminarColaborador={eliminarColaborador}
+                      actualizarColor={actualizarColor}
+                      like={like}
+                      users = {usersDB}
+                    />}
+                  </Suspense>
+                </div>
                 <MyOrg
                   cambiarMostrar={cambiarMostrar}
                   user={authenticatedUser}
                 />
-                {equipos.map((dato) => {
+                {/* aqui tambien se cambia por anuncios */}
+                {(loading1 && loading2) ? <div>Cargando datos...</div> : equipos.map((dato) => {
                   return (
                     <Equipo
                       datos={dato}
                       key={dato.id}
-                      colaboradores={colaboradores.filter(
+                      colaboradores={addDB.filter(
                         (colaborador) => colaborador.equipo === dato.titulo
-                      )}
+                      )}  
                       eliminarColaborador={eliminarColaborador}
                       actualizarColor={actualizarColor}
                       like={like}
+                      users = {usersDB}
                     />
                   );
                 })}
@@ -485,17 +508,19 @@ function App() {
           <Route
             path="/profile"
             element={
+              // aqui tambien se cambia por anuncios
               <Profile
                 datosUser={authenticatedUser}
-                anunciosUser={colaboradores}
+                anunciosUser={addDB}
                 actualizarDatosUser={actualizarDatosUser}
                 editarAnuncio={editarAnuncio}
                 eliminarAnuncio={eliminarAnuncio}
+                users = {usersDB}
                 opt="opt"
               />
             }
           ></Route>
-          <Route
+          {/* <Route
             path="/profile/cambioContrasena"
             element={
               <CambioContrasena
@@ -503,7 +528,7 @@ function App() {
                 actualizarPassword={actualizarPassword}
               />
             }
-          ></Route>
+          ></Route> */}
           <Route path="/main" element={<Panel />}></Route>
         </Routes>
         <Footer />

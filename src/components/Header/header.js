@@ -74,7 +74,10 @@ function Header(props) {
           {/* Botones */}
           {!props.form && !props.authenticatedUser && (
             <NavbarItem className="hidden lg:flex">
-              <Button href="#" className="btn-login">
+              <Button href="#" className="btn-login" onClick={() => {
+                  props.mostrarForm();
+                  props.ponerTipoForm("Login");
+                }}>
                 <NavLink to="/login">Login</NavLink>
               </Button>
             </NavbarItem>
@@ -108,11 +111,10 @@ function Header(props) {
           )}
           {props.authenticatedUser && (
             <NavbarItem>
-              
               <Dropdown>
                 <DropdownTrigger>
                   <Button variant="bordered">
-                    <img src={props.fotoProf} alt="img-profile"/>
+                    <img src={props.authenticatedUser.foto} alt="img-profile"/>
                     {props.authenticatedUser.nombre}</Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">

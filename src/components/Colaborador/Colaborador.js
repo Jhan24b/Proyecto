@@ -9,10 +9,9 @@ import { BiEdit } from "react-icons/bi";
 
 const Colaborador = (props) => {
   // const { titulo, precio, foto, id, fav, ubicacion, producto, usuario } = props.datos;
-  const { titulo, precio, foto, ubicacion, producto, usuario, id } =
-    props.datos;
+  const { titulo, precio, foto, ubicacion, producto, usuario, id } = props.datos;
   // const { eliminarColaborador, like } = props;
-  const { eliminarAnuncio, editarAnuncio, opt } = props;
+  const { eliminarAnuncio, editarAnuncio, opt, users } = props;
   return (
     <section className="colaborador">
       {opt && (
@@ -46,7 +45,7 @@ const Colaborador = (props) => {
             <img src={foto} alt="foto de anuncio"></img>
           </div>
         </div>
-        <MiniUser user={usuario} title={titulo}></MiniUser>
+        <MiniUser user={usuario} title={titulo} users = {users}></MiniUser>
       </div>
     </section>
   );
