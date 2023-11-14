@@ -16,7 +16,7 @@ function Profile(props) {
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
 
-  const { actualizarDatosUser, establecerUser } = props;
+  const { actualizarDatosUser, establecerUser, editarAnuncio, eliminarAnuncio } = props;
 
   const validateEmail = (value) => {
     // Expresión regular que verifica si el valor es una dirección de correo electrónico válida.
@@ -191,7 +191,7 @@ function Profile(props) {
         {anunciosUser
           .filter((anuncio) => anuncio.usuario.id === props.datosUser.id)
           .map((ad) => {
-            return <Colaborador datos={ad} />;
+            return <Colaborador datos={ad} opt={props.opt} editarAnuncio={editarAnuncio} eliminarAnuncio={eliminarAnuncio}/>;
           })}
       </div>
     </div>

@@ -1,7 +1,14 @@
 import { useState, useEffect, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { getDatabase, ref, onValue, push, get } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  get,
+  remove, update
+} from "firebase/database";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,18 +29,46 @@ import Profile from "./components/Profile/profile";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
 import Maps from "./components/Maps/Maps";
-// import { AiOutlineVerified } from "react-icons/ai";
+
 
 function App() {
   // const [usersDB, setUsersDB] = useState();
   // const [addDB, setAddDB] = useState();
 
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
+  useEffect( () => {
+    // Acceder a la base de datos de Firebase
+    // const db = getDatabase(app);
+    // try {
+    //   const snapshot =  get(ref(db, "usuarios"));
+    //   if (snapshot.exists()) {
+    //     const data = snapshot.val();
+    //     // setUsersDB(data);
+    //     // for (const userId in data) {
+    //     //   const u = data[userId];
+    //     // }
+    //   }
+    // } catch (error) {
+    //   console.error("Error inesperado:", error);
+    // }
+  }, []);
+
   useEffect(() => {
     // Acceder a la base de datos de Firebase
     // const db = getDatabase(app);
-    // setUsersDB(ref(db, "usuarios"));
-  }, []);
+    // try {
+    //   const snapshot =  get(ref(db, "anuncios"));
+    //   if (snapshot.exists()) {
+    //     const data = snapshot.val();
+    //     // setAddDB(data);
+    //     // for (const userId in data) {
+    //     //   const u = data[userId];
+    //     // }
+    //   }
+    // } catch (error) {
+    //   console.error("Error inesperado:", error);
+    // }
+  }, [])
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
   const [colaboradores, actualizarColaboradores] = useState([
@@ -264,6 +299,52 @@ function App() {
     actualizarColaboradores(nuevosColaboradores);
   };
 
+  const eliminarAnuncio = async (id) => {
+    const db = getDatabase(app);
+
+    try {
+      const snapshot = await get(ref(db, "anuncios"));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const userId in data) {
+          const u = data[userId];
+          if (u.id === id) {
+            remove(ref(db, "anuncios/" + userId))
+              .then(alert("El anuncio se elimino correctamente"))
+              .catch((err) => {
+                alert("error: ", err);
+              });
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error inesperado:", error);
+    }
+  };
+
+  const editarAnuncio = async (id, newInfo) => {
+    const db = getDatabase(app);
+
+    try {
+      const snapshot = await get(ref(db, "anuncios"));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const userId in data) {
+          const u = data[userId];
+          if (u.id === id) {
+            update(ref(db, "anuncios/" + userId), newInfo)
+              .then(alert(`El anuncio se actualizó correctamente`))
+              .catch((err) => {
+                alert("error: ", err);
+              });
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error inesperado:", error);
+    }
+  };
+
   //Favorito
   const like = (id) => {
     const colaboradoresActualizados = colaboradores.map((colaborador) => {
@@ -275,18 +356,28 @@ function App() {
     actualizarColaboradores(colaboradoresActualizados);
   };
 
-  function actualizarPassword(id, newPassword) {
+  async function actualizarPassword(id, newPassword) {
     // Obtener el SDK de Firebase
     const db = getDatabase(app);
-    const dbRef = ref(db, "usuarios");
 
-    // Actualizar el documento
-    dbRef.doc(id).update({
-      password: newPassword.password,
-    });
-
-    // Mostrar un mensaje de confirmación
-    alert(`La contraseña se actualizó correctamente`);
+    try {
+      const snapshot = await get(ref(db, "usuarios"));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const userId in data) {
+          const u = data[userId];
+          if (u.id === id) {
+            update(ref(db, "usuarios/" + userId), newPassword)
+              .then(alert(`La contraseña se actualizó correctamente`))
+              .catch((err) => {
+                alert("error: ", err);
+              });
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error inesperado:", error);
+    }
   }
 
   function actualizarDatosUser(id, newData) {
@@ -306,29 +397,6 @@ function App() {
     // Mostrar un mensaje de confirmación
     alert(`Los datos se actualizaron correctamente`);
   }
-
-  // const mapRef = useRef(null);
-  // const map = new L.Map(document.querySelector("#map"));
-  // useEffect(() => {
-  //   const map = new L.Map(mapRef.current);
-
-  //   // Set the map options
-  //   map.setOptions({
-  //     center: [-34.603722, -58.381611],
-  //     zoom: 10,
-  //   });
-
-  //   // Add a tile layer
-  //   const tileLayer = new L.TileLayer(
-  //     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  //   );
-  //   map.addLayer(tileLayer);
-
-  //   // Add a marker
-  //   const marker = new L.Marker([-34.603722, -58.381611]);
-  //   marker.bindPopup("Mi casa");
-  //   map.addLayer(marker);
-  // }, []);
 
   return (
     <NextUIProvider>
@@ -421,6 +489,9 @@ function App() {
                 datosUser={authenticatedUser}
                 anunciosUser={colaboradores}
                 actualizarDatosUser={actualizarDatosUser}
+                editarAnuncio={editarAnuncio}
+                eliminarAnuncio={eliminarAnuncio}
+                opt="opt"
               />
             }
           ></Route>
