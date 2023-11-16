@@ -30,10 +30,11 @@ import Profile from "./components/Profile/profile";
 import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
 import Maps from "./components/Maps/Maps";
+import EditAnuncio from "./components/FormAnuncio/editAnuncio";
 
 function App() {
-  const [usersDB, setUsersDB] = useState();
-  const [addDB, setAddDB] = useState();
+  const [usersDB, setUsersDB] = useState([]);
+  const [addDB, setAddDB] = useState([]);
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
@@ -277,15 +278,15 @@ function App() {
   };
 
   const registrarAnuncio = (anuncio) => {
-    //Spread Operator hace copia de un valor en este caso de colaboradores
-    // const db = getDatabase(app);
-    // const dbRef = ref(db, "anuncios");
-    // onValue(dbRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log("Datos de la base de datos:", data);
-    // });
-    // // Realizar una operación de escritura
-    // push(dbRef, anuncio);
+    // Spread Operator hace copia de un valor en este caso de colaboradores
+    const db = getDatabase(app);
+    const dbRef = ref(db, "anuncios");
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log("Datos de la base de datos:", data);
+    });
+    // Realizar una operación de escritura
+    push(dbRef, anuncio);
   };
 
   //Actualizar color de equipo
@@ -427,8 +428,19 @@ function App() {
             path="/add-ad"
             element={
               <FormAnuncio
-                ad={registrarAnuncio}
+                registrarAnuncio = {registrarAnuncio}
                 data={equipos.map((equipo) => equipo.titulo)}
+                user={authenticatedUser}
+              />
+            }
+          ></Route>
+          <Route
+            path="/edit-ad"
+            element={
+              <EditAnuncio
+                editarAnuncio = {editarAnuncio}
+                data={equipos.map((equipo) => equipo.titulo)}
+                idAdd = {1}
               />
             }
           ></Route>
@@ -520,7 +532,7 @@ function App() {
               />
             }
           ></Route>
-          {/* <Route
+          {authenticatedUser && <Route
             path="/profile/cambioContrasena"
             element={
               <CambioContrasena
@@ -528,7 +540,7 @@ function App() {
                 actualizarPassword={actualizarPassword}
               />
             }
-          ></Route> */}
+          ></Route>}
           <Route path="/main" element={<Panel />}></Route>
         </Routes>
         <Footer />

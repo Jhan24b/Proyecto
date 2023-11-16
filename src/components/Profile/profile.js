@@ -189,9 +189,9 @@ function Profile(props) {
       <div className="anunciosC">
         {/* //   .filter((anuncio) => anuncio.user === id) <-- esto es lo principal */}
         {anunciosUser
-          .filter((anuncio) => anuncio.usuario.id === props.datosUser.id)
+          .filter((anuncio) => anuncio.usuario === props.datosUser.id)
           .map((ad) => {
-            return <Colaborador datos={ad} opt={props.opt} editarAnuncio={editarAnuncio} eliminarAnuncio={eliminarAnuncio}/>;
+            return <Colaborador datos={ad} opt={props.opt} editarAnuncio={editarAnuncio} eliminarAnuncio={eliminarAnuncio} user={props.datosUser} users={props.users}/>;
           })}
       </div>
     </div>

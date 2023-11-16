@@ -43,6 +43,7 @@ function FormAnuncio(props) {
       equipo: equipo,
       fav: false,
     };
+    console.info(registrarAnuncio, typeof(registrarAnuncio))
     registrarAnuncio(datosEnviar);
     console.log(datosEnviar);
   };
