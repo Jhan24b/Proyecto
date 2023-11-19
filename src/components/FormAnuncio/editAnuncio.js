@@ -3,48 +3,55 @@ import "./editAnuncio.css";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Input, Button, Textarea, Select, SelectItem } from "@nextui-org/react";
-import { v4 as uuid } from "uuid";
 
 // import Campo from "../Campo/Campo";
 // import ListaOpciones from "../ListaOpciones/ListaOpciones";
 // import Boton from "../Boton/boton";
 
 function EditAnuncio(props) {
-  const [titulo, actualizarTitulo] = useState("");
-  const [producto, actualizarProducto] = useState();
-  const [precio, actualizarPrecio] = useState();
-  const [foto, actualizarFoto] = useState("");
-  const [equipo, actualizarEquipo] = useState("");
-
-  const { registrarAnuncio } = props;
+  const { editarAnuncio, add } = props;
+  const [titulo, actualizarTitulo] = useState(add.titulo);
+  const [producto, actualizarProducto] = useState(add.producto);
+  const [precio, actualizarPrecio] = useState(add.precio);
+  const [foto, actualizarFoto] = useState(add.foto);
+  const [equipo, actualizarEquipo] = useState(add.equipo);
+  const [descripcion, actualizarDescripcion] = useState(add.descripcion);
 
   const manejarCambio = (e) => {
     actualizarEquipo(e.target.value);
   };
 
   const onDrop = (acceptedFiles) => {
-    // Manejar los archivos aceptados aquí, por ejemplo, mostrar una vista previa o enviar al servidor.
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const base64 = event.target.result;
+      // Subir la imagen al servidor utilizando la base64
+      actualizarFoto(base64);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: "image/*",
+    multiple: false,
   });
 
   const manejarEnvio = (event) => {
     event.preventDefault();
     const datosEnviar = {
-      id: uuid(),
       titulo: titulo,
       foto: foto,
       producto: producto,
       precio: precio,
-      usuario: props.user.id,
       equipo: equipo,
       fav: false,
+      descripcion: descripcion,
     };
-    console.info(registrarAnuncio, typeof(registrarAnuncio))
-    registrarAnuncio(datosEnviar);
+    editarAnuncio(add.id, datosEnviar);
     console.log(datosEnviar);
   };
 
@@ -86,12 +93,9 @@ function EditAnuncio(props) {
         {/* <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]"> */}
         <div className="w-full flex gap-2 max-w-[75%] min-w-[420px]">
           <div {...getRootProps()} className="dropzone">
-            <input
-              {...getInputProps()}
-              value={foto}
-              onChange={actualizarFoto}
-            />
+            <input {...getInputProps()} />
             <p>Arrastra y suelta la foto aquí o haz clic para seleccionar.</p>
+            {foto && <img src={foto} alt="Vista previa de la foto" />}
           </div>
           <div className="contenidoAnuncio">
             <Input
@@ -147,7 +151,9 @@ function EditAnuncio(props) {
                 variant="faded"
                 label="Descripción"
                 labelPlacement="outside"
-                placeholder="Ingrese una descripcción de su producto (opcional)"
+                value={descripcion}
+                onValueChange={actualizarDescripcion}
+                placeholder="Ingrese una descripción de su producto (opcional)"
                 // description="Enter a concise description of your project."
                 className="max-w-xs"
               />
@@ -155,7 +161,7 @@ function EditAnuncio(props) {
           </div>
         </div>
         <Button color="primary" variant="faded" onClick={manejarEnvio}>
-          Publicar
+          Modificar
         </Button>
       </form>
     </div>

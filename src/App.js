@@ -37,6 +37,7 @@ function App() {
   const [addDB, setAddDB] = useState([]);
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
+  const [postEdit, setPostEdit] = useState(0);
 
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
   useEffect(() => {
@@ -440,7 +441,7 @@ function App() {
               <EditAnuncio
                 editarAnuncio = {editarAnuncio}
                 data={equipos.map((equipo) => equipo.titulo)}
-                idAdd = {1}
+                add = {postEdit}
               />
             }
           ></Route>
@@ -520,15 +521,14 @@ function App() {
           <Route
             path="/profile"
             element={
-              // aqui tambien se cambia por anuncios
               <Profile
                 datosUser={authenticatedUser}
                 anunciosUser={addDB}
                 actualizarDatosUser={actualizarDatosUser}
-                editarAnuncio={editarAnuncio}
                 eliminarAnuncio={eliminarAnuncio}
                 users = {usersDB}
                 opt="opt"
+                setPostEdit = {setPostEdit}
               />
             }
           ></Route>

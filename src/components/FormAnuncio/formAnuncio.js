@@ -23,12 +23,22 @@ function FormAnuncio(props) {
   };
 
   const onDrop = (acceptedFiles) => {
-    // Manejar los archivos aceptados aquí, por ejemplo, mostrar una vista previa o enviar al servidor.
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const base64 = event.target.result;
+      // Subir la imagen al servidor utilizando la base64
+      actualizarFoto(base64);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: "image/*",
+    multiple: false, // Asegúrate de permitir solo un archivo a la vez
   });
 
   const manejarEnvio = (event) => {
@@ -43,7 +53,7 @@ function FormAnuncio(props) {
       equipo: equipo,
       fav: false,
     };
-    console.info(registrarAnuncio, typeof(registrarAnuncio))
+    console.info(registrarAnuncio, typeof registrarAnuncio);
     registrarAnuncio(datosEnviar);
     console.log(datosEnviar);
   };
@@ -86,12 +96,9 @@ function FormAnuncio(props) {
         {/* <div className="w-full flex flex-col  gap-2 max-w-[60%] min-w-[360px]"> */}
         <div className="w-full flex gap-2 max-w-[75%] min-w-[420px]">
           <div {...getRootProps()} className="dropzone">
-            <input
-              {...getInputProps()}
-              value={foto}
-              onChange={actualizarFoto}
-            />
+            <input {...getInputProps()} />
             <p>Arrastra y suelta la foto aquí o haz clic para seleccionar.</p>
+            {foto && <img src={foto} alt="Vista previa de la foto" />}
           </div>
           <div className="contenidoAnuncio">
             <Input

@@ -16,7 +16,8 @@ function Profile(props) {
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
 
-  const { actualizarDatosUser, establecerUser, editarAnuncio, eliminarAnuncio } = props;
+  const { actualizarDatosUser, establecerUser, eliminarAnuncio, setPostEdit } =
+    props;
 
   const validateEmail = (value) => {
     // Expresión regular que verifica si el valor es una dirección de correo electrónico válida.
@@ -69,12 +70,7 @@ function Profile(props) {
       dni.length > 0 &&
       telefono.length > 0
     ) {
-      if (
-        !isDniInvalid &&
-        isNameValid &&
-        !isPhoneInvalid &&
-        !isInvalid
-      ) {
+      if (!isDniInvalid && isNameValid && !isPhoneInvalid && !isInvalid) {
         const datosEnviar = {
           nombre: nombre,
           foto: foto,
@@ -176,11 +172,10 @@ function Profile(props) {
               >
                 Actualizar
               </Button>
-              <Button
-                color="secondary"
-                variant="ghost"
-              >
-                <NavLink to="/profile/cambioContrasena">Cambiar Contraseña</NavLink>
+              <Button color="secondary" variant="ghost">
+                <NavLink to="/profile/cambioContrasena">
+                  Cambiar Contraseña
+                </NavLink>
               </Button>
             </div>
           </form>
@@ -191,7 +186,16 @@ function Profile(props) {
         {anunciosUser
           .filter((anuncio) => anuncio.usuario === props.datosUser.id)
           .map((ad) => {
-            return <Colaborador datos={ad} opt={props.opt} editarAnuncio={editarAnuncio} eliminarAnuncio={eliminarAnuncio} user={props.datosUser} users={props.users}/>;
+            return (
+              <Colaborador
+                datos={ad}
+                opt={props.opt}
+                eliminarAnuncio={eliminarAnuncio}
+                user={props.datosUser}
+                users={props.users}
+                setPostEdit={setPostEdit}
+              />
+            );
           })}
       </div>
     </div>
