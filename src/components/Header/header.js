@@ -1,5 +1,5 @@
 import "./header.css";
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Navbar,
@@ -15,15 +15,20 @@ import {
 import logo from "../../img/logo.png";
 
 function Header(props) {
-
-  const {setAuthenticatedUser} = props
+  const [busqueda, setBusqueda] = useState("");
+  const {setAuthenticatedUser, setBuscar} = props
   const navigate = useNavigate();
 
   const closeSession = () => {
-    
     setAuthenticatedUser(null);
     navigate("/login");
   };
+
+  const buscar = (e) => {
+    e.preventDefault();
+    setBuscar(busqueda);
+    navigate("/filtered");
+  }
 
   return (
     <header className="header">
@@ -36,7 +41,7 @@ function Header(props) {
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           {/* Buscador */}
           <NavbarItem>
-            <form className="form">
+            <form className="form" onSubmit={buscar}>
               <button>
                 <svg
                   width="17"
@@ -58,8 +63,9 @@ function Header(props) {
               <input
                 className="input"
                 placeholder="Type your text"
-                required=""
                 type="text"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
               ></input>
               <button className="reset" type="reset">
                 <svg

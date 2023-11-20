@@ -31,6 +31,7 @@ import FormAnuncio from "./components/FormAnuncio/formAnuncio";
 import CambioContrasena from "./components/CambioContrasena/CambioContrasena";
 import Maps from "./components/Maps/Maps";
 import EditAnuncio from "./components/FormAnuncio/editAnuncio";
+import Filtrado from "./components/Filtrado/Filtrado";
 
 function App() {
   const [usersDB, setUsersDB] = useState([]);
@@ -38,6 +39,7 @@ function App() {
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [postEdit, setPostEdit] = useState(0);
+  const [buscar, setBuscar] = useState("");
 
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
   useEffect(() => {
@@ -418,6 +420,7 @@ function App() {
           authenticatedUser={authenticatedUser}
           form={mostrarFormulario}
           setAuthenticatedUser={setAuthenticatedUser}
+          setBuscar={setBuscar}
         />
         <Routes>
           <Route
@@ -546,7 +549,17 @@ function App() {
               }
             ></Route>
           )}
-          <Route path="/main" element={<Panel />}></Route>
+          <Route
+            path="/filtered"
+            element={
+              <Filtrado
+                categorias={equipos}
+                anuncios={addDB}
+                buscar={buscar}
+                usersDB={usersDB}
+              />
+            }
+          ></Route>
         </Routes>
         <Footer />
       </Router>
