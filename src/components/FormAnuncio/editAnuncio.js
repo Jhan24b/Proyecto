@@ -94,8 +94,8 @@ function EditAnuncio(props) {
         <div className="w-full flex gap-2 max-w-[75%] min-w-[420px]">
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />
+            {foto && <img src={foto} alt="Vista previa de la foto" className="foto--prop"/>}
             <p>Arrastra y suelta la foto aquí o haz clic para seleccionar.</p>
-            {foto && <img src={foto} alt="Vista previa de la foto" />}
           </div>
           <div className="contenidoAnuncio">
             <Input

@@ -182,12 +182,12 @@ function Profile(props) {
         </div>
       </div>
       <div className="anunciosC">
-        {/* //   .filter((anuncio) => anuncio.user === id) <-- esto es lo principal */}
         {anunciosUser
           .filter((anuncio) => anuncio.usuario === props.datosUser.id)
-          .map((ad) => {
+          .map((ad, idx) => {
             return (
               <Colaborador
+                key={idx}
                 datos={ad}
                 opt={props.opt}
                 eliminarAnuncio={eliminarAnuncio}

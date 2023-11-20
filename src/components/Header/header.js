@@ -1,6 +1,6 @@
 import "./header.css";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Navbar,
   NavbarBrand,
@@ -15,6 +15,16 @@ import {
 import logo from "../../img/logo.png";
 
 function Header(props) {
+
+  const {setAuthenticatedUser} = props
+  const navigate = useNavigate();
+
+  const closeSession = () => {
+    
+    setAuthenticatedUser(null);
+    navigate("/login");
+  };
+
   return (
     <header className="header">
       <Navbar>
@@ -76,7 +86,6 @@ function Header(props) {
             <NavbarItem className="hidden lg:flex">
               <Button href="#" className="btn-login" onClick={() => {
                   props.mostrarForm();
-                  props.ponerTipoForm("Login");
                 }}>
                 <NavLink to="/login">Login</NavLink>
               </Button>
@@ -90,7 +99,6 @@ function Header(props) {
                 variant="flat"
                 onClick={() => {
                   props.mostrarForm();
-                  props.ponerTipoForm("SignUp");
                 }}
               >
                 <NavLink to="/sign-up">Sign Up</NavLink>
@@ -125,14 +133,16 @@ function Header(props) {
                     <NavLink to="/add-ad">Crear Anuncio</NavLink>
                   </DropdownItem>
                   <DropdownItem key="manage-ads">
-                    <NavLink to="/manage-ads">Gestionar Anuncios</NavLink>
+                    <NavLink to="/manage-ads" >Gestionar Anuncios</NavLink>
                   </DropdownItem>
                   <DropdownItem
                     key="end-session"
                     className="text-danger"
                     color="danger"
+                    onClick={closeSession}
                   >
-                    <NavLink to="/">Cerrar Sesión</NavLink>
+                    {/* <NavLink to="/">Cerrar Sesion</NavLink> */}
+                    Cerrar Sesion
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

@@ -1,6 +1,7 @@
 import "./formulario.css";
 
 import React, { useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 
 import { v4 as uuid } from "uuid";
@@ -13,6 +14,7 @@ function Formulario(props) {
   const [dni, actualizarDni] = useState("");
 
   const { registrarColaborador, establecerUser } = props;
+  const navigate = useNavigate ();
 
   const manejarEnvio = (event) => {
     event.preventDefault();
@@ -144,7 +146,8 @@ function Formulario(props) {
     e.preventDefault();
     if (!isInvalid && isStrong) {
       if(props.verificar(email, password)){
-        props.mostrarForm()
+        props.mostrarForm();
+        navigate("/");
       }
     }
   };

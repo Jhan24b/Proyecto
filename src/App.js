@@ -224,15 +224,10 @@ function App() {
   ]);
   // const [locationData, setLocationData] = useState(null);
   const [authenticatedUser, setAuthenticatedUser] = useState();
-  const [tipoForm, setTipoForm] = useState();
 
   //Muestra el formulario para anadir un nuevo colaborador
   const cambiarMostrar = () => {
     actualizarMostrar(!mostrarFormulario);
-  };
-
-  const ponerTipoForm = (tipo) => {
-    setTipoForm(tipo);
   };
 
   const establecerUser = (usuario) => {
@@ -422,14 +417,14 @@ function App() {
           mostrarForm={cambiarMostrar}
           authenticatedUser={authenticatedUser}
           form={mostrarFormulario}
-          ponerTipoForm={ponerTipoForm}
+          setAuthenticatedUser={setAuthenticatedUser}
         />
         <Routes>
           <Route
             path="/add-ad"
             element={
               <FormAnuncio
-                registrarAnuncio = {registrarAnuncio}
+                registrarAnuncio={registrarAnuncio}
                 data={equipos.map((equipo) => equipo.titulo)}
                 user={authenticatedUser}
               />
@@ -439,9 +434,9 @@ function App() {
             path="/edit-ad"
             element={
               <EditAnuncio
-                editarAnuncio = {editarAnuncio}
+                editarAnuncio={editarAnuncio}
                 data={equipos.map((equipo) => equipo.titulo)}
-                add = {postEdit}
+                add={postEdit}
               />
             }
           ></Route>
@@ -486,13 +481,17 @@ function App() {
                 {/* aqui se debe cambiar a usuarios */}
                 <div>
                   <Suspense fallback={<div>Cargando...</div>}>
-                  {loading2 ? <div>Cargando datos...</div> : <Top
-                      colaboradores={addDB}
-                      eliminarColaborador={eliminarColaborador}
-                      actualizarColor={actualizarColor}
-                      like={like}
-                      users = {usersDB}
-                    />}
+                    {loading2 ? (
+                      <div>Cargando datos...</div>
+                    ) : (
+                      <Top
+                        colaboradores={addDB}
+                        eliminarColaborador={eliminarColaborador}
+                        actualizarColor={actualizarColor}
+                        like={like}
+                        users={usersDB}
+                      />
+                    )}
                   </Suspense>
                 </div>
                 <MyOrg
@@ -500,21 +499,25 @@ function App() {
                   user={authenticatedUser}
                 />
                 {/* aqui tambien se cambia por anuncios */}
-                {(loading1 && loading2) ? <div>Cargando datos...</div> : equipos.map((dato) => {
-                  return (
-                    <Equipo
-                      datos={dato}
-                      key={dato.id}
-                      colaboradores={addDB.filter(
-                        (colaborador) => colaborador.equipo === dato.titulo
-                      )}  
-                      eliminarColaborador={eliminarColaborador}
-                      actualizarColor={actualizarColor}
-                      like={like}
-                      users = {usersDB}
-                    />
-                  );
-                })}
+                {loading1 && loading2 ? (
+                  <div>Cargando datos...</div>
+                ) : (
+                  equipos.map((dato) => {
+                    return (
+                      <Equipo
+                        datos={dato}
+                        key={dato.id}
+                        colaboradores={addDB.filter(
+                          (colaborador) => colaborador.equipo === dato.titulo
+                        )}
+                        eliminarColaborador={eliminarColaborador}
+                        actualizarColor={actualizarColor}
+                        like={like}
+                        users={usersDB}
+                      />
+                    );
+                  })
+                )}
               </div>
             }
           ></Route>
@@ -526,21 +529,23 @@ function App() {
                 anunciosUser={addDB}
                 actualizarDatosUser={actualizarDatosUser}
                 eliminarAnuncio={eliminarAnuncio}
-                users = {usersDB}
+                users={usersDB}
                 opt="opt"
-                setPostEdit = {setPostEdit}
+                setPostEdit={setPostEdit}
               />
             }
           ></Route>
-          {authenticatedUser && <Route
-            path="/profile/cambioContrasena"
-            element={
-              <CambioContrasena
-                idUser={authenticatedUser.id}
-                actualizarPassword={actualizarPassword}
-              />
-            }
-          ></Route>}
+          {authenticatedUser && (
+            <Route
+              path="/profile/cambioContrasena"
+              element={
+                <CambioContrasena
+                  idUser={authenticatedUser.id}
+                  actualizarPassword={actualizarPassword}
+                />
+              }
+            ></Route>
+          )}
           <Route path="/main" element={<Panel />}></Route>
         </Routes>
         <Footer />
