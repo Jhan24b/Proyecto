@@ -478,7 +478,7 @@ function App() {
                 <Panel />
                 <div>
                   <Suspense fallback={<div>Cargando...</div>}>
-                    <Maps />
+                    <Maps addDB={addDB}/>
                   </Suspense>
                 </div>
                 {/* aqui se debe cambiar a usuarios */}
