@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Input, Button, Textarea, Select, SelectItem } from "@nextui-org/react";
 import { v4 as uuid } from "uuid";
+import Maps from "../Maps/Maps";
 
 // import Campo from "../Campo/Campo";
 // import ListaOpciones from "../ListaOpciones/ListaOpciones";
@@ -15,6 +16,7 @@ function FormAnuncio(props) {
   const [precio, actualizarPrecio] = useState();
   const [foto, actualizarFoto] = useState("");
   const [equipo, actualizarEquipo] = useState("");
+  const [ubicacion, actualizarUbicacion] = useState();
 
   const { registrarAnuncio } = props;
 
@@ -51,6 +53,7 @@ function FormAnuncio(props) {
       precio: precio,
       usuario: props.user.id,
       equipo: equipo,
+      ubicacion: ubicacion,
       fav: false,
     };
     console.info(registrarAnuncio, typeof registrarAnuncio);
@@ -150,6 +153,13 @@ function FormAnuncio(props) {
                   </SelectItem>
                 ))}
               </Select>
+              <Input
+                isDisabled
+                label="Ubicacion"
+                variant="faded"
+                value={ubicacion}
+              />
+              <Maps register={actualizarUbicacion} className="ubiProfile"/>
               <Textarea
                 variant="faded"
                 label="Descripción"

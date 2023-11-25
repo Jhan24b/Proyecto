@@ -43,3 +43,9 @@
     justify-content: space-evenly;
     margin: 16px 0px;
 }
+
+.ubiProfile{
+    width: 450px !important;
+    height: 250px !important;
+    box-sizing: border-box !important;
+}

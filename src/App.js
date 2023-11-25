@@ -99,93 +99,6 @@ function App() {
   }, []);
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
-  const [colaboradores, actualizarColaboradores] = useState([
-    {
-      id: uuidv4,
-      titulo: "Quinua Negra organica",
-      foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-      producto: ["papa"],
-      telefono: "999 999 999",
-      ubicacion: "su hai",
-      visitas: 10,
-      equipo: "Cereales",
-      precio: 1.8,
-      usuario: {
-        id: "1",
-        nombre: "Manuel Prada",
-        foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-        telefono: "955664455",
-      },
-    },
-    {
-      id: uuidv4,
-      titulo: "Kiwicha organica",
-      foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-      producto: ["papa"],
-      telefono: "999 999 999",
-      ubicacion: "su hai",
-      visitas: 10,
-      equipo: "Cereales",
-      precio: 1.8,
-      usuario: {
-        id: "2",
-        nombre: "Manuel Prada",
-        foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-        telefono: "987957337",
-      },
-    },
-    {
-      id: uuidv4,
-      titulo: "Papa blanca organica",
-      foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-      producto: ["papa"],
-      telefono: "999 999 999",
-      ubicacion: "su hai",
-      visitas: 10,
-      equipo: "Legumbres",
-      precio: 1.8,
-      usuario: {
-        id: "1",
-        nombre: "Manuel Prada",
-        foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-        telefono: "987957337",
-      },
-    },
-    {
-      id: uuidv4,
-      titulo: "Dumbo organico",
-      foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-      producto: ["papa"],
-      telefono: "999 999 999",
-      ubicacion: "su hai",
-      visitas: 10,
-      equipo: "Frutas",
-      precio: 1.8,
-      usuario: {
-        id: "1",
-        nombre: "Manuel Prada",
-        foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-        telefono: "987957337",
-      },
-    },
-    {
-      id: uuidv4,
-      titulo: "Quinua organica",
-      foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-      producto: ["papa"],
-      telefono: "999 999 999",
-      ubicacion: "su hai",
-      visitas: 10,
-      equipo: "Cereales",
-      precio: 1.8,
-      usuario: {
-        id: "2",
-        nombre: "Miguel Alvarado",
-        foto: "https://ih1.redbubble.net/image.1089030344.5005/st,small,507x507-pad,600x600,f8f8f8.jpg",
-        telefono: "987957337",
-      },
-    },
-  ]);
   const [equipos, actualizarEquipos] = useState([
     {
       titulo: "Frutas",
@@ -239,7 +152,6 @@ function App() {
   //Registra al nuevo colaborador
   const registrarColaborador = (colaborador) => {
     //Spread Operator hace copia de un valor en este caso de colaboradores
-    actualizarColaboradores([...colaboradores, colaborador]);
     const db = getDatabase(app);
     const dbRef = ref(db, "usuarios");
 
@@ -304,15 +216,6 @@ function App() {
     actualizarEquipos([...equipos, { ...nuevoEquipo, id: uuidv4() }]);
   };
 
-  //Eliminar a un colaborador
-  const eliminarColaborador = (id) => {
-    console.log("Eliminando colaborador", id);
-    const nuevosColaboradores = colaboradores.filter(
-      (colaborador) => colaborador.id !== id
-    );
-    actualizarColaboradores(nuevosColaboradores);
-  };
-
   const eliminarAnuncio = async (id) => {
     const db = getDatabase(app);
 
@@ -361,13 +264,13 @@ function App() {
 
   //Favorito
   const like = (id) => {
-    const colaboradoresActualizados = colaboradores.map((colaborador) => {
-      if (colaborador.id === id) {
-        colaborador.fav = !colaborador.fav;
-      }
-      return colaborador;
-    });
-    actualizarColaboradores(colaboradoresActualizados);
+    // const colaboradoresActualizados = colaboradores.map((colaborador) => {
+    //   if (colaborador.id === id) {
+    //     colaborador.fav = !colaborador.fav;
+    //   }
+    //   return colaborador;
+    // });
+    // actualizarColaboradores(colaboradoresActualizados);
   };
 
   async function actualizarPassword(id, newPassword) {
@@ -394,23 +297,41 @@ function App() {
     }
   }
 
-  function actualizarDatosUser(id, newData) {
+  async function actualizarDatosUser(id, newData) {
+    // Obtener el SDK de Firebase
     const db = getDatabase(app);
-    const dbRef = ref(db, "usuarios");
-
-    // Actualizar el documento
-    dbRef.doc(id).update({
-      nombre: newData.nombre,
-      foto: newData.foto,
-      telefono: newData.telefono,
-      email: newData.email,
-      ubicacion: newData.ubicacion,
-      dni: newData.dni,
-    });
-
-    // Mostrar un mensaje de confirmación
-    alert(`Los datos se actualizaron correctamente`);
+  
+    try {
+      const snapshot = await get(ref(db, "usuarios"));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const userId in data) {
+          const u = data[userId];
+          if (u.id === id) {
+            // Actualizar el documento
+            update(ref(db, "usuarios/" + userId), {
+              nombre: newData.nombre,
+              foto: newData.foto,
+              telefono: newData.telefono,
+              email: newData.email,
+              ubicacion: newData.ubicacion,
+              dni: newData.dni,
+            })
+              .then(() => {
+                // Mostrar un mensaje de confirmación
+                alert(`Los datos se actualizaron correctamente`);
+              })
+              .catch((err) => {
+                alert("Error: " + err);
+              });
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error inesperado:", error);
+    }
   }
+  
 
   return (
     <NextUIProvider>
@@ -478,7 +399,7 @@ function App() {
                 <Panel />
                 <div>
                   <Suspense fallback={<div>Cargando...</div>}>
-                    <Maps addDB={addDB}/>
+                    <Maps addDB={addDB} general={true}/>
                   </Suspense>
                 </div>
                 {/* aqui se debe cambiar a usuarios */}
@@ -489,7 +410,6 @@ function App() {
                     ) : (
                       <Top
                         colaboradores={addDB}
-                        eliminarColaborador={eliminarColaborador}
                         actualizarColor={actualizarColor}
                         like={like}
                         users={usersDB}
@@ -513,7 +433,6 @@ function App() {
                         colaboradores={addDB.filter(
                           (colaborador) => colaborador.equipo === dato.titulo
                         )}
-                        eliminarColaborador={eliminarColaborador}
                         actualizarColor={actualizarColor}
                         like={like}
                         users={usersDB}

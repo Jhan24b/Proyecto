@@ -3,7 +3,7 @@ import "./editAnuncio.css";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Input, Button, Textarea, Select, SelectItem } from "@nextui-org/react";
-
+import Maps from "../Maps/Maps";
 // import Campo from "../Campo/Campo";
 // import ListaOpciones from "../ListaOpciones/ListaOpciones";
 // import Boton from "../Boton/boton";
@@ -16,6 +16,7 @@ function EditAnuncio(props) {
   const [foto, actualizarFoto] = useState(add.foto);
   const [equipo, actualizarEquipo] = useState(add.equipo);
   const [descripcion, actualizarDescripcion] = useState(add.descripcion);
+  const [ubicacion, actualizarUbicacion] = useState();
 
   const manejarCambio = (e) => {
     actualizarEquipo(e.target.value);
@@ -48,7 +49,7 @@ function EditAnuncio(props) {
       producto: producto,
       precio: precio,
       equipo: equipo,
-      fav: false,
+      fav: false,ubicacion:ubicacion,
       descripcion: descripcion,
     };
     editarAnuncio(add.id, datosEnviar);
@@ -147,6 +148,13 @@ function EditAnuncio(props) {
                   </SelectItem>
                 ))}
               </Select>
+              <Input
+                isDisabled
+                label="Ubicacion"
+                variant="faded"
+                value={ubicacion}
+              />
+              <Maps register={actualizarUbicacion} className="ubiProfile"/>
               <Textarea
                 variant="faded"
                 label="Descripción"

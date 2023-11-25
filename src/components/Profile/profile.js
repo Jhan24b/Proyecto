@@ -4,19 +4,20 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import Colaborador from "../Colaborador/Colaborador";
+import Maps from "../Maps/Maps";
+import { type } from "@testing-library/user-event/dist/type";
 // import { PiWhatsappLogoDuotone } from "react-icons/pi";
 
 function Profile(props) {
   const { anunciosUser } = props;
   const [nombre, actualizarNombre] = useState(props.datosUser.nombre);
   const [telefono, actualizarTelefono] = useState(props.datosUser.telefono);
-  // const [color, actualizarColor] = useState("");
   const [email, actualizarEmail] = useState(props.datosUser.email);
   const [dni, actualizarDni] = useState(props.datosUser.dni);
   const [ubicacion, setUbicacion] = useState(props.datosUser.ubicacion);
   const [foto, setFoto] = useState(props.datosUser.foto);
 
-  const { actualizarDatosUser, establecerUser, eliminarAnuncio, setPostEdit } =
+  const { actualizarDatosUser, eliminarAnuncio, setPostEdit } =
     props;
 
   const validateEmail = (value) => {
@@ -27,8 +28,8 @@ function Profile(props) {
   };
 
   const validateName = (value) => {
-    const namePattern = /^[A-Za-z]{2,100}$/;
-    return namePattern.test(value);
+    const namePattern = /^[^\s]+(\s[^\s]+)*$/;
+    return !namePattern.test(value);
   };
 
   const validateDNI = (value) => {
@@ -63,14 +64,21 @@ function Profile(props) {
   }, [telefono]);
 
   const manejarActualizacion = (event) => {
-    event.preventDefault();
+    event.preventDefault();console.log("1");
+    console.log(email.length > 0,
+      nombre.length > 0,
+      dni.toString().length > 0,
+      telefono.length > 0, dni, typeof(dni))
     if (
       email.length > 0 &&
       nombre.length > 0 &&
-      dni.length > 0 &&
+      dni.toString().length > 0 &&
       telefono.length > 0
     ) {
-      if (!isDniInvalid && isNameValid && !isPhoneInvalid && !isInvalid) {
+      console.log("2");
+      console.log(!isDniInvalid && isNameValid && !isPhoneInvalid && !isInvalid)
+      if (!isDniInvalid && !isNameValid && !isPhoneInvalid && !isInvalid) {
+        console.log("3");
         const datosEnviar = {
           nombre: nombre,
           foto: foto,
@@ -81,15 +89,6 @@ function Profile(props) {
           fav: false,
         };
         actualizarDatosUser(props.datosUser.id, datosEnviar);
-        establecerUser({
-          nombre: nombre,
-          dni: dni,
-          telefono: telefono,
-          equipo: "",
-          ubicacion: "",
-          email: email,
-        });
-        props.mostrarForm();
       }
     }
   };
@@ -158,11 +157,13 @@ function Profile(props) {
               />
 
               <Input
+                isDisabled
                 label="Ubicacion"
                 variant="faded"
                 value={ubicacion}
                 onValueChange={setUbicacion}
               />
+              <Maps register={setUbicacion} className="ubiProfile"/>
             </div>
             <div className="botonesEdicion">
               <Button

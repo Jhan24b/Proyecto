@@ -12,6 +12,7 @@ const Colaborador = (props) => {
   const { titulo, precio, foto, ubicacion, producto, usuario, id } = props.datos;
   // const { eliminarColaborador, like } = props;
   const { eliminarAnuncio, opt, users, setPostEdit } = props;
+  const userObject = users && users.find(u => u.id === usuario);
   return (
     <section className="colaborador">
       {opt && (
@@ -40,7 +41,7 @@ const Colaborador = (props) => {
           <div className="contenido--detalles">
             <h4>{producto}</h4>
             <h4>{precio}</h4>
-            <h4>{ubicacion}</h4>
+            <h6>{userObject.ubicacion}</h6>
           </div>
           <div className="contenido--foto">
             <img src={foto} alt="foto de anuncio"></img>
