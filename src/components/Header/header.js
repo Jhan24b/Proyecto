@@ -12,15 +12,19 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import Cookies from "js-cookie";
 import logo from "../../img/logo.png";
 
 function Header(props) {
   const [busqueda, setBusqueda] = useState("");
-  const {setAuthenticatedUser, setBuscar} = props
+  const { setAuthenticatedUser, setBuscar } = props;
+  const usuarioHaIniciadoSesion =
+    Cookies.get("usuarioIniciadoSesion") === "true";
   const navigate = useNavigate();
 
   const closeSession = () => {
     setAuthenticatedUser(null);
+    Cookies.set("usuarioIniciadoSesion", "false");
     navigate("/login");
   };
 
@@ -28,7 +32,7 @@ function Header(props) {
     e.preventDefault();
     setBuscar(busqueda);
     navigate("/filtered");
-  }
+  };
 
   return (
     <header className="header">
@@ -90,25 +94,33 @@ function Header(props) {
           {/* Botones */}
           {!props.form && !props.authenticatedUser && (
             <NavbarItem className="hidden lg:flex">
-              <Button href="#" className="btn-login" onClick={() => {
-                  props.mostrarForm();
-                }}>
-                <NavLink to="/login">Login</NavLink>
-              </Button>
+              <NavLink to="/login">
+                <Button
+                  href="#"
+                  className="btn-login"
+                  onClick={() => {
+                    props.mostrarForm();
+                  }}
+                >
+                  Login
+                </Button>
+              </NavLink>
             </NavbarItem>
           )}
           {!props.form && !props.authenticatedUser && (
             <NavbarItem>
-              <Button
-                className="btn-sign-up border-color-brown border-width-2"
-                href="#"
-                variant="flat"
-                onClick={() => {
-                  props.mostrarForm();
-                }}
-              >
-                <NavLink to="/sign-up">Sign Up</NavLink>
-              </Button>
+              <NavLink to="/sign-up">
+                <Button
+                  className="btn-sign-up border-color-brown border-width-2"
+                  href="#"
+                  variant="flat"
+                  onClick={() => {
+                    props.mostrarForm();
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </NavLink>
             </NavbarItem>
           )}
           {props.form && (
@@ -128,26 +140,26 @@ function Header(props) {
               <Dropdown>
                 <DropdownTrigger>
                   <Button variant="bordered">
-                    <img src={props.authenticatedUser.foto} alt="img-profile"/>
-                    {props.authenticatedUser.nombre}</Button>
+                    <img src={props.authenticatedUser.foto} alt="img-profile" />
+                    {props.authenticatedUser.nombre}
+                  </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem key="profile">
-                    <NavLink to="/profile">Perfil</NavLink>
-                  </DropdownItem>
-                  <DropdownItem key="new-ad">
-                    <NavLink to="/add-ad">Crear Anuncio</NavLink>
-                  </DropdownItem>
-                  <DropdownItem key="manage-ads">
+                  <NavLink to="/profile">
+                    <DropdownItem key="profile">Perfil</DropdownItem>
+                  </NavLink>
+                  <NavLink to="/add-ad">
+                    <DropdownItem key="new-ad">Crear Anuncio</DropdownItem>
+                  </NavLink>
+                  {/* <DropdownItem key="manage-ads">
                     <NavLink to="/manage-ads" >Gestionar Anuncios</NavLink>
-                  </DropdownItem>
+                  </DropdownItem> */}
                   <DropdownItem
                     key="end-session"
                     className="text-danger"
                     color="danger"
                     onClick={closeSession}
                   >
-                    {/* <NavLink to="/">Cerrar Sesion</NavLink> */}
                     Cerrar Sesion
                   </DropdownItem>
                 </DropdownMenu>

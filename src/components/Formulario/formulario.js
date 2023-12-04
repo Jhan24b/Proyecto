@@ -2,6 +2,7 @@ import "./formulario.css";
 
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
+import Cookies from 'js-cookie';
 import { Input, Button } from "@nextui-org/react";
 
 import { v4 as uuid } from "uuid";
@@ -145,9 +146,14 @@ function Formulario(props) {
   const manejarInicioSesion = (e) => {
     e.preventDefault();
     if (!isInvalid && isStrong) {
-      if(props.verificar(email, password)){
+      if (props.verificar(email, password)) {
         props.mostrarForm();
-        navigate("/");
+  
+        // Guardar la sesión en una cookie
+        Cookies.set('usuarioIniciadoSesion', 'true');
+  
+        // Redirigir a la página principal
+        navigate('/');
       }
     }
   };

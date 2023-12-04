@@ -9,6 +9,8 @@
     display: flex;
     justify-content: space-evenly;
     padding: 32px 0px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
 }
 
 .titleT{

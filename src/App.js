@@ -40,6 +40,7 @@ function App() {
   const [loading2, setLoading2] = useState(true);
   const [postEdit, setPostEdit] = useState(0);
   const [buscar, setBuscar] = useState("");
+  const [newData, setNewData] = useState(false);
 
   // DESCOMENTAR EL USEEFFECT PARA PODER SOLICITAR LA INFORMACION INICIAL
   useEffect(() => {
@@ -61,6 +62,7 @@ function App() {
 
           setUsersDB(usersArray);
           setLoading1(false);
+          setNewData(false);
         }
       } catch (error) {
         console.error("Error inesperado:", error);
@@ -68,7 +70,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [newData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +91,7 @@ function App() {
 
           setAddDB(addArray);
           setLoading2(false);
+          setNewData(false);
         }
       } catch (error) {
         console.error("Error inesperado:", error);
@@ -96,7 +99,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [newData]);
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
   const [equipos, actualizarEquipos] = useState([
@@ -162,6 +165,7 @@ function App() {
 
     // Realizar una operación de escritura
     push(dbRef, colaborador);
+    setNewData(true);
   };
 
   const verificarSesion = async (user, pass) => {
@@ -197,6 +201,7 @@ function App() {
     });
     // Realizar una operación de escritura
     push(dbRef, anuncio);
+    setNewData(true);
   };
 
   //Actualizar color de equipo
@@ -231,6 +236,7 @@ function App() {
               .catch((err) => {
                 alert("error: ", err);
               });
+              setNewData(true);
           }
         }
       }
@@ -342,6 +348,7 @@ function App() {
           form={mostrarFormulario}
           setAuthenticatedUser={setAuthenticatedUser}
           setBuscar={setBuscar}
+          newData={setNewData}
         />
         <Routes>
           <Route
