@@ -97,7 +97,7 @@ export default function ExpandableAd(props) {
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMWwyw7Y4HH3eHb6c-VVizg_kQUCW2-A&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=myKey&libraries=places`;
     script.async = true;
     script.onload = () => {
       const geocoder = new window.google.maps.Geocoder();
