@@ -3,7 +3,14 @@ import { useState, useEffect } from "react";
 import { MagicCard } from "react-magic-motion";
 // import { PiWhatsappLogoDuotone } from "react-icons/pi";
 import "react-magic-motion/card.css";
+import { setDefaults, geocode, RequestType } from "react-geocode";
+import { Geocoder } from "@googlemaps/react-wrapper";
 
+setDefaults({
+  key: "AIzaSyDLMWwyw7Y4HH3eHb6c-VVizg_kQUCW2-A", // Your API key here.
+  language: "es", // Default language for responses.
+  region: "es", // Default region for responses.
+});
 
 function CloseFullscreenSvg() {
   return (
@@ -87,60 +94,49 @@ function OpenFullscreenSvg() {
   );
 }
 
-export default function ExpandableAd(props) {
+const ExpandableAd = (props) => {
   const [isCardExpanded, setIsCardExpanded] = useState(false);
-  const { titulo, precio, foto, producto, usuario } = props.datos;
-  const { users } = props;
-  const userObject = users && users.find((u) => u.id === usuario);
-  const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
+  const { datos, users, bc } = props;
+  const { titulo, precio, foto, producto, usuario, descripcion } = datos;
+  const userObject = users.find((u) => u.id === usuario) || {};
+  const [lugar, setLugar] = useState("Lia Lover");
+  const [coordenada, setCoordenada] = useState({
+    lat: userObject.ubicacion[0],
+    lng: userObject.ubicacion[1],
+  });
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMWwyw7Y4HH3eHb6c-VVizg_kQUCW2-A&libraries=places`;
-    script.async = true;
-    script.onload = () => {
-      const geocoder = new window.google.maps.Geocoder();
-  
-      // Use the geocoder to get address details asynchronously
-      geocoder.geocode({
-        location: {
-          lat: userObject.ubicacion[0],
-          lng: userObject.ubicacion[1],
-        },
-      }, (results, status) => {
-        if (status === 'OK') {
-          // Check if results and addressComponents exist before accessing them
-          if (results && results[0] && results[0].address_components) {
-            const addressComponents = results[0].address_components;
-            // Assuming that city and district are the first and second components respectively
-            setCity(addressComponents[0].long_name);
-            setDistrict(addressComponents[1].long_name);
-          } else {
-            console.error('No address components found in the geocoding response.');
-          }
-        } else {
-          console.error(`Geocode was not successful for the following reason: ${status}`);
-        }
-      });
-    };
-  
-    document.head.appendChild(script);
-  
-    // Cleanup function to remove the script when the component unmounts
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, [userObject]); // Dependency on userObject to trigger the effect when it changes  
+  // const showDirection = () => {
+  //   // Add logic for showing directions
+  // };
 
   const contactarUsuario = (numero) => {
-    const message = `Hola, ¿cómo estás?, me gustaria informacion sobre ${titulo}`; // Reemplaza esto con el mensaje que deseas enviar
+    const message = `Hola, ¿cómo estás?, me gustaría información sobre ${titulo}`;
 
     const whatsappURL = `https://wa.me/${numero}?text=${encodeURIComponent(
       message
     )}`;
     window.location.href = whatsappURL;
   };
+
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await geocode(
+    //       RequestType.LATLNG,
+    //       "12.06513,75.20486",
+    //       { language: "en", region: "sp", enable_address_descriptor: true, search_radius: 5000 }
+    //     );
+    //     setLatlngResponse(Object.entries(response));
+    //     console.log("here");
+    //     console.log(userObject.ubicacion,coordenada);
+    //     console.log(latlngResponse);
+    //     // setLugar(latlngResponse[1][1][0].formatted_address);
+    //   } catch (error) {
+    //     console.error("Error:", error);
+    //   }
+    // };
+    // fetchData();
+  }, []); // Empty dependency array to run the effect only once
 
   return (
     <MagicCard
@@ -150,11 +146,12 @@ export default function ExpandableAd(props) {
     >
       <div
         style={{
-          width: isCardExpanded ? "40rem" : "17rem",
+          width: isCardExpanded ? "26rem" : "12rem",
           gap: "1rem",
           display: "flex",
           flexDirection: "column",
-          padding: "1.35rem 0",
+          // padding: "1.8rem 0",
+          margin: isCardExpanded ? "" : "10px",
           color: isCardExpanded ? "white" : "currentColor",
         }}
       >
@@ -169,13 +166,14 @@ export default function ExpandableAd(props) {
             style={{
               fontWeight: 600,
               fontSize: "1.4em",
+              width: "80%",
             }}
           >
-            Mona Lisa
+            {titulo}
           </h3>
 
           <button
-            style={{ position: "absolute", right: 0, zIndex: 9999 }}
+            style={{ position: "absolute", right: "5px", zIndex: 9999 }}
             onClick={() => setIsCardExpanded(!isCardExpanded)}
           >
             <svg
@@ -191,14 +189,21 @@ export default function ExpandableAd(props) {
           </button>
         </div>
         <div style={{ overflowY: "auto" }}>
-          <img
+          <div
             style={{
-              width: isCardExpanded ? "24rem" : "17.5rem",
-              height: "auto",
+              display: "flex",
+              justifyContent: isCardExpanded ? "center" : "",
             }}
-            alt="Mona Lisa"
-            src="https://react-magic-motion.nyc3.cdn.digitaloceanspaces.com/examples/expandable-card/mona-lisa.jpg"
-          />
+          >
+            <img
+              style={{
+                width: isCardExpanded ? "12rem" : "8.75rem",
+                height: "auto",
+              }}
+              src={foto}
+              alt="foto de anuncio"
+            />
+          </div>
           {isCardExpanded && (
             <section
               style={{
@@ -207,31 +212,52 @@ export default function ExpandableAd(props) {
                 gap: "1rem",
               }}
             >
-              <div className="anuncio" style={{ backgroundColor: props.bc }}>
-                <div className="anuncio--titulo">{titulo}</div>
-                <div className="anuncio--contenido">
-                  <div className="contenido--detalles">
+              <div
+                style={{
+                  backgroundColor: bc,
+                  borderRadius: "8px",
+                  height: "320px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
                     <h4>{producto}</h4>
+                    <h4>{descripcion}</h4>
                     <h4>{precio}</h4>
-                    <h6>{ district + ", " + city}</h6>
-                  </div>
-                  <div className="contenido--foto">
-                    <img src={foto} alt="foto de anuncio"></img>
+                    <h6>{lugar}</h6>
                   </div>
                 </div>
-                <div className="usuariomini">
-                  <div className="foto-mini">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    padding: "12px 0px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "64px",
+                      height: "64px",
+                      borderRadius: "4px",
+                    }}
+                  >
                     <img src={userObject.foto} alt="fotoUsuario"></img>
                   </div>
-                  <div className="detalles">
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <h4>{userObject.nombre}</h4>
                     <div>calificacion</div>
                   </div>
-                  <div className="contacto">
-                    {/* <PiWhatsappLogoDuotone
-                      onClick={() => contactarUsuario(userObject.telefono)}
-                      className="contactar"
-                    /> */}
+                  <div style={{ cursor: "pointer" }}>
                     <button
                       onClick={() => contactarUsuario(userObject.telefono)}
                       className="contactar"
@@ -247,4 +273,6 @@ export default function ExpandableAd(props) {
       </div>
     </MagicCard>
   );
-}
+};
+
+export default ExpandableAd;

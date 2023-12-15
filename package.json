@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@nextui-org/react": "^2.1.10",
     "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.7",
@@ -13,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "firebase": "^10.6.0",
     "framer-motion": "^10.16.4",
+    "google-map-react": "^2.2.1",
     "google-maps": "^4.3.3",
     "hex-to-rgba": "^2.0.1",
     "js-cookie": "^3.0.5",
@@ -20,6 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-geocode": "^1.0.0-alpha.1",
     "react-geolocation": "^1.0.4",
     "react-icons": "^4.10.1",
     "react-leaflet": "^4.2.1",
