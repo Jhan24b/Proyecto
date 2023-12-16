@@ -1,4 +1,3 @@
-import "./expandableAd.css";
 import { useState, useEffect } from "react";
 import { MagicCard } from "react-magic-motion";
 // import { PiWhatsappLogoDuotone } from "react-icons/pi";
